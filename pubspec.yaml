@@ -1,0 +1,29 @@
+name: spendlock
+description: "SpendLock — spend less, grow more."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  get: ^4.7.3
+  get_storage: ^2.1.1
+  google_fonts: ^8.0.1
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.2.3
+  flutter_otp_text_field: ^1.5.1+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/
