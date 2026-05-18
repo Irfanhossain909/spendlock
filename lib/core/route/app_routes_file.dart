@@ -8,6 +8,7 @@ import 'package:spendlock/core/route/bindings/splash_binding.dart';
 import 'package:spendlock/feature/auth/presentation/ui/forgot_password_screen.dart';
 import 'package:spendlock/feature/auth/presentation/ui/login_screen.dart';
 import 'package:spendlock/feature/auth/presentation/ui/register_screen.dart';
+import 'package:spendlock/feature/auth/presentation/ui/reset_password_screen.dart';
 import 'package:spendlock/feature/auth/presentation/ui/verify_email_screen.dart';
 import 'package:spendlock/feature/navigation/presentation/ui/navigation_screen.dart';
 import 'package:spendlock/feature/onboarding/presentation/ui/onboarding_screen.dart';
@@ -53,6 +54,11 @@ List<GetPage<dynamic>> appRootRoutesFile = <GetPage<dynamic>>[
     name: AppRoutes.instance.forgotPasswordScreen,
     binding: AuthBinding(),
     page: ForgotPasswordScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.resetPasswordScreen,
+    binding: AuthBinding(),
+    page: ResetPasswordScreen.new,
   ),
   GetPage(
     name: AppRoutes.instance.setGoalScreen,

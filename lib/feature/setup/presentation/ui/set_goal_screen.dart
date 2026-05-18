@@ -13,10 +13,10 @@ class SetGoalScreen extends GetView<SetupController> {
   const SetGoalScreen({super.key});
 
   static const _goals = [
-    (Icons.savings_outlined, 'Save more money'),
-    (Icons.shopping_cart_outlined, 'Stop impulse buying'),
-    (Icons.show_chart_outlined, 'Track spending'),
-    (Icons.bolt_outlined, 'Build better habits'),
+    (Icons.savings_outlined, 'Save more money', AppColors.primary),
+    (Icons.remove_shopping_cart_outlined, 'Stop impulse buying', Colors.orange),
+    (Icons.show_chart_rounded, 'Track spending', Colors.blueAccent),
+    (Icons.bolt, 'Build better habits', AppColors.redBrown),
   ];
 
   @override
@@ -29,7 +29,11 @@ class SetGoalScreen extends GetView<SetupController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 16.h),
-            AppText(data: "What's your goal?", fontSize: 24.sp, fontWeight: FontWeight.w700),
+            AppText(
+              data: "What's your goal?",
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w700,
+            ),
             SizedBox(height: 8.h),
             AppText(
               data: "Choose the primary reason you're joining SpendLock today.",
@@ -39,30 +43,29 @@ class SetGoalScreen extends GetView<SetupController> {
             ),
             SizedBox(height: 24.h),
             Expanded(
-              child: Obx(
-                () {
-                  final selectedIndex = controller.selectedGoal.value;
-                  return ListView.separated(
-                    itemCount: _goals.length,
-                    separatorBuilder: (_, index) => SizedBox(height: 16.h),
-                    itemBuilder: (_, i) {
-                      final goal = _goals[i];
-                      return SelectionCard(
-                        title: goal.$2,
-                        icon: goal.$1,
-                        isSelected: selectedIndex == i,
-                        onTap: () => controller.selectGoal(i),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: Obx(() {
+                final selectedIndex = controller.selectedGoal.value;
+                return ListView.separated(
+                  itemCount: _goals.length,
+                  separatorBuilder: (_, index) => SizedBox(height: 16.h),
+                  itemBuilder: (_, i) {
+                    final goal = _goals[i];
+                    return SelectionCard(
+                      title: goal.$2,
+                      icon: goal.$1,
+                      iconColor: goal.$3,
+                      iconBgColor: goal.$3.withOpacity(0.1),
+                      isSelected: selectedIndex == i,
+                      onTap: () => controller.selectGoal(i),
+                    );
+                  },
+                );
+              }),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 24.h),
               child: AppButton(
                 title: 'Continue',
-                showArrow: true,
                 onTap: () => Get.toNamed(AppRoutes.instance.setChallengeScreen),
               ),
             ),

@@ -7,7 +7,7 @@ import 'package:spendlock/feature/onboarding/domain/repository/onboarding_reposi
 
 class OnboardingController extends GetxController {
   OnboardingController({OnboardingRepository? repository})
-      : _repository = repository ?? OnboardingRepositoryImpl();
+    : _repository = repository ?? OnboardingRepositoryImpl();
 
   final OnboardingRepository _repository;
 
@@ -27,7 +27,7 @@ class OnboardingController extends GetxController {
   String get actionButtonLabel {
     final item = currentItem;
     if (item?.actionLabel != null) return item!.actionLabel!;
-    return isLastPage ? 'Get Started' : 'Continue';
+    return isLastPage ? 'Get Started' : 'Next';
   }
 
   @override

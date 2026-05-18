@@ -13,11 +13,11 @@ class SetChallengeScreen extends GetView<SetupController> {
   const SetChallengeScreen({super.key});
 
   static const _challenges = [
-    (Icons.nightlight_round, 'Late-night food delivery'),
-    (Icons.shopping_bag_outlined, 'Online shopping sprees'),
-    (Icons.coffee_outlined, 'Coffee & cafes'),
-    (Icons.movie_outlined, 'Entertainment'),
-    (Icons.more_horiz, 'Something else'),
+    (Icons.nights_stay_outlined, 'Late-night food delivery', AppColors.primary),
+    (Icons.remove_shopping_cart_outlined, 'Online shopping sprees', Colors.red),
+    (Icons.coffee_outlined, 'Coffee & cafes', Colors.brown),
+    (Icons.tv, 'Entertainment', AppColors.blueAccent),
+    (Icons.more_horiz, 'Something else', Colors.grey),
   ];
 
   @override
@@ -38,38 +38,40 @@ class SetChallengeScreen extends GetView<SetupController> {
             ),
             SizedBox(height: 8.h),
             AppText(
-              data: 'Select all that apply. This helps us customize your spending locks.',
+              data:
+                  'Select all that apply. This helps us customize your spending locks.',
               fontSize: 14.sp,
               color: AppColors.gray,
               maxLines: 3,
             ),
             SizedBox(height: 24.h),
             Expanded(
-              child: Obx(
-                () {
-                  final selected = Set<int>.from(controller.selectedChallenges);
-                  return ListView.separated(
-                    itemCount: _challenges.length,
-                    separatorBuilder: (_, index) => SizedBox(height: 16.h),
-                    itemBuilder: (_, i) {
-                      final c = _challenges[i];
-                      return SelectionCard(
-                        title: c.$2,
-                        icon: c.$1,
-                        isSelected: selected.contains(i),
-                        onTap: () => controller.toggleChallenge(i),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: Obx(() {
+                final selected = Set<int>.from(controller.selectedChallenges);
+                return ListView.separated(
+                  itemCount: _challenges.length,
+                  separatorBuilder: (_, index) => SizedBox(height: 16.h),
+                  itemBuilder: (_, i) {
+                    final c = _challenges[i];
+                    return SelectionCard(
+                      title: c.$2,
+                      icon: c.$1,
+                      iconColor: c.$3,
+                      iconBgColor: c.$3.withOpacity(0.1),
+                      isSelected: selected.contains(i),
+                      onTap: () => controller.toggleChallenge(i),
+                    );
+                  },
+                );
+              }),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 24.h),
               child: AppButton(
                 title: 'Continue',
                 showArrow: true,
-                onTap: () => Get.toNamed(AppRoutes.instance.enableNotificationScreen),
+                onTap: () =>
+                    Get.toNamed(AppRoutes.instance.enableNotificationScreen),
               ),
             ),
           ],

@@ -6,6 +6,7 @@ import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/component/setup_progress_header.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/feature/setup/presentation/controller/setup_controller.dart';
+import 'package:spendlock/feature/setup/presentation/widget/monthly_limit_card.dart';
 
 class BudgetScreen extends GetView<SetupController> {
   const BudgetScreen({super.key});
@@ -27,57 +28,74 @@ class BudgetScreen extends GetView<SetupController> {
             ),
             SizedBox(height: 8.h),
             AppText(
-              data: "Define how much you'd like to spend each month to reach your goals faster.",
+              data:
+                  "Define how much you'd like to spend each month to reach your goals faster.",
               fontSize: 14.sp,
               color: AppColors.gray,
               maxLines: 3,
             ),
             SizedBox(height: 32.h),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(32.w),
-              decoration: BoxDecoration(
-                gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(20.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.25),
-                    blurRadius: 24,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Obx(
-                () => Column(
-                  children: [
-                    AppText(
-                      data: 'Monthly Limit',
-                      fontSize: 14.sp,
-                      color: AppColors.white.withValues(alpha: 0.9),
-                      fontFamily: 'inter',
-                    ),
-                    SizedBox(height: 8.h),
-                    AppText(
-                      data: '\$${controller.monthlyBudget.value.toInt()}',
-                      fontSize: 48.sp,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.white,
-                      fontFamily: 'inter',
-                    ),
-                    SizedBox(height: 24.h),
-                    Slider(
-                      value: controller.monthlyBudget.value,
-                      min: 500,
-                      max: 5000,
-                      divisions: 18,
-                      activeColor: AppColors.white,
-                      inactiveColor: AppColors.white.withValues(alpha: 0.3),
-                      onChanged: controller.setBudget,
-                    ),
-                  ],
-                ),
-              ),
+            MonthlyLimitCard(
+              initialValue: 2000,
+              min: 500,
+              max: 5000,
+
+              options: const [
+                BudgetOption(title: '\$1k', value: 1000),
+                BudgetOption(title: '\$2k', value: 2000),
+                BudgetOption(title: '\$3k', value: 3000),
+                BudgetOption(title: '\$5k', value: 5000),
+              ],
+
+              onChanged: (value) {
+                print(value);
+              },
             ),
+            // Container(
+            //   width: double.infinity,
+            //   padding: EdgeInsets.all(32.w),
+            //   decoration: BoxDecoration(
+            //     gradient: AppColors.primaryGradient,
+            //     borderRadius: BorderRadius.circular(20.r),
+            //     boxShadow: [
+            //       BoxShadow(
+            //         color: AppColors.primary.withValues(alpha: 0.25),
+            //         blurRadius: 24,
+            //         offset: const Offset(0, 8),
+            //       ),
+            //     ],
+            //   ),
+            //   child: Obx(
+            //     () => Column(
+            //       children: [
+            //         AppText(
+            //           data: 'Monthly Limit',
+            //           fontSize: 14.sp,
+            //           color: AppColors.white.withValues(alpha: 0.9),
+            //           fontFamily: 'inter',
+            //         ),
+            //         SizedBox(height: 8.h),
+            //         AppText(
+            //           data: '\$${controller.monthlyBudget.value.toInt()}',
+            //           fontSize: 48.sp,
+            //           fontWeight: FontWeight.w800,
+            //           color: AppColors.white,
+            //           fontFamily: 'inter',
+            //         ),
+            //         SizedBox(height: 24.h),
+            //         Slider(
+            //           value: controller.monthlyBudget.value,
+            //           min: 500,
+            //           max: 5000,
+            //           divisions: 18,
+            //           activeColor: AppColors.white,
+            //           inactiveColor: AppColors.white.withValues(alpha: 0.3),
+            //           onChanged: controller.setBudget,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             const Spacer(),
             AppButton(
               title: 'Finish Setup',

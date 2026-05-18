@@ -18,6 +18,8 @@ class AppColors {
   static const Color warningYellow = Color(0xFFFFF4D6);
   static const Color red = Color(0xFFD30000);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color redBrown = Color(0xFF841F00);
+  static const Color blueAccent = Color(0xFF7265FF);
 
   static const LinearGradient primaryGradient = LinearGradient(
     begin: Alignment.topLeft,

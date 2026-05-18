@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
+import 'package:spendlock/core/const/app_assets.dart';
 import 'package:spendlock/core/const/app_color.dart';
 
 class SocialLoginButton extends StatelessWidget {
@@ -22,7 +24,7 @@ class SocialLoginButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.g_mobiledata, size: 28.sp, color: AppColors.black),
+            SvgPicture.asset(AppAssets.google, width: 18.sp, height: 18.sp),
             SizedBox(width: 8.w),
             AppText(
               data: 'Sign in with Google',

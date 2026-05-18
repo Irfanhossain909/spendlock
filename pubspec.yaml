@@ -16,6 +16,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.3
   flutter_otp_text_field: ^1.5.1+1
+  cached_network_image: ^3.4.1
+  shimmer_animation: ^2.2.2+1
 
 dev_dependencies:
   flutter_test:

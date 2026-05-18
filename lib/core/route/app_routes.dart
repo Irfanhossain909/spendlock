@@ -12,6 +12,7 @@ class AppRoutes {
   final String registerScreen = '/register-screen';
   final String verifyEmailScreen = '/verify-email-screen';
   final String forgotPasswordScreen = '/forgot-password-screen';
+  final String resetPasswordScreen = '/reset-password-screen';
 
   // Setup
   final String setGoalScreen = '/set-goal-screen';

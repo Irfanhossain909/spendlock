@@ -26,7 +26,7 @@ class LoginScreen extends GetView<LoginController> {
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SpendLockBranding(logoSize: 48),
                     SizedBox(height: 16.h),
@@ -64,7 +64,9 @@ class LoginScreen extends GetView<LoginController> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: GestureDetector(
-                              onTap: () => Get.toNamed(AppRoutes.instance.forgotPasswordScreen),
+                              onTap: () => Get.toNamed(
+                                AppRoutes.instance.forgotPasswordScreen,
+                              ),
                               child: AppText(
                                 data: 'Forgot Password',
                                 fontSize: 13.sp,
@@ -86,25 +88,40 @@ class LoginScreen extends GetView<LoginController> {
                           SizedBox(height: 24.h),
                           Row(
                             children: [
-                              const Expanded(child: Divider(color: AppColors.stroke)),
+                              const Expanded(
+                                child: Divider(color: AppColors.stroke),
+                              ),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: AppText(data: 'or', fontSize: 12.sp, color: AppColors.gray),
+                                child: AppText(
+                                  data: 'or',
+                                  fontSize: 12.sp,
+                                  color: AppColors.gray,
+                                ),
                               ),
-                              const Expanded(child: Divider(color: AppColors.stroke)),
+                              const Expanded(
+                                child: Divider(color: AppColors.stroke),
+                              ),
                             ],
                           ),
                           SizedBox(height: 24.h),
                           SocialLoginButton(onTap: controller.googleSignIn),
                           SizedBox(height: 20.h),
                           GestureDetector(
-                            onTap: () => Get.toNamed(AppRoutes.instance.registerScreen),
+                            onTap: () =>
+                                Get.toNamed(AppRoutes.instance.registerScreen),
                             child: Center(
                               child: RichText(
                                 text: TextSpan(
-                                  style: TextStyle(fontSize: 14.sp, color: AppColors.gray, fontFamily: 'Inter'),
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: AppColors.gray,
+                                    fontFamily: 'Inter',
+                                  ),
                                   children: [
-                                    const TextSpan(text: "Don't have an account? "),
+                                    const TextSpan(
+                                      text: "Don't have an account? ",
+                                    ),
                                     TextSpan(
                                       text: 'Sign Up',
                                       style: TextStyle(

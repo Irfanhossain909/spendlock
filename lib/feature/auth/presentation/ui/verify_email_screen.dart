@@ -14,26 +14,22 @@ class VerifyEmailScreen extends GetView<VerifyEmailController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<VerifyEmailController>(
-      init: VerifyEmailController(),
-      builder: (controller) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.black),
-              onPressed: Get.back,
-            ),
-          ),
-          body: Container(
-            decoration: const BoxDecoration(gradient: AppColors.authBackground),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(gradient: AppColors.authBackground),
+        child: SafeArea(
+          child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 24.h,
+              ),
               child: Column(
                 children: [
-                  SpendLockBranding(logoSize: 66, centered: true),
+                  const SpendLockBranding(logoSize: 66, centered: true),
                   SizedBox(height: 16.h),
                   AppText(
-                    data: 'Verify Email',
+                    data: 'Verify OTP',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w700,
                     textAlign: TextAlign.center,
@@ -51,31 +47,83 @@ class VerifyEmailScreen extends GetView<VerifyEmailController> {
                       children: [
                         OtpTextField(
                           numberOfFields: 4,
-                          borderColor: AppColors.stroke,
+                          borderColor: Colors.transparent,
                           focusedBorderColor: AppColors.primary,
+                          enabledBorderColor: Colors.transparent,
+                          disabledBorderColor: Colors.transparent,
                           showFieldAsBox: true,
-                          fieldWidth: 70.w,
+                          fieldWidth: 64.w,
+                          fieldHeight: 56.h,
                           borderRadius: BorderRadius.circular(12.r),
+                          filled: true,
+                          fillColor: AppColors.primarySurface,
+                          cursorColor: AppColors.primary,
+                          textStyle: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.black,
+                          ),
+                          onCodeChanged: controller.onOtpChanged,
                           onSubmit: controller.verify,
+                        ),
+                        SizedBox(height: 20.h),
+                        AppText(
+                          data: 'A code has been sent to your email',
+                          fontSize: 13.sp,
+                          color: AppColors.gray,
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8.h),
+                        Obx(
+                          () => AppText(
+                            data: controller.formattedTimer,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                         SizedBox(height: 24.h),
                         Obx(
                           () => AppButton(
-                            title: 'Verify',
+                            title: 'Confirm',
                             isLoading: controller.isLoading.value,
-                            showArrow: true,
-                            onTap: () => controller.verify('1234'),
+                            onTap: controller.verify,
+                          ),
+                        ),
+                        SizedBox(height: 24.h),
+                        AppText(
+                          data: "Don't get OTP?",
+                          fontSize: 13.sp,
+                          color: AppColors.lightGray,
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 4.h),
+                        Obx(
+                          () => GestureDetector(
+                            onTap: controller.canResend.value
+                                ? controller.resendOtp
+                                : null,
+                            child: AppText(
+                              data: 'Resend',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w700,
+                              color: controller.canResend.value
+                                  ? AppColors.black
+                                  : AppColors.lightGray,
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 48.h),
                 ],
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

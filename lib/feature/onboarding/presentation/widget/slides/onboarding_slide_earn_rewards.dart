@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:spendlock/core/component/app_image/app_image_circular.dart';
+import 'package:spendlock/core/const/app_assets.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/feature/onboarding/domain/model/onboarding_item_model.dart';
 import 'package:spendlock/feature/onboarding/presentation/widget/onboarding_copy_block.dart';
@@ -23,32 +25,25 @@ class OnboardingSlideEarnRewards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: OnboardingLayoutTokens.horizontalInset),
+      padding: EdgeInsets.symmetric(
+        horizontal: OnboardingLayoutTokens.horizontalInset,
+      ),
       child: Column(
         children: [
           SizedBox(height: 92.h),
           SizedBox(
             width: OnboardingLayoutTokens.illustrationWidth,
             height: OnboardingLayoutTokens.illustrationHeightSlide2,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  width: 246.w,
-                  height: 246.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.primarySurface,
-                    border: Border.all(color: AppColors.stroke),
-                  ),
-                ),
-                Icon(item.icon, size: 88.sp, color: AppColors.primary),
-              ],
+            child: AppImageCircular(
+              path: AppAssets.onBoarding2,
+              width: 181.w,
+              height: 254.h,
+              borderRadius: 16.r,
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 34.h),
           OnboardingPageDots(count: totalPages, activeIndex: activeIndex),
-          const Spacer(flex: 1),
+          SizedBox(height: 44.h),
           OnboardingCopyBlock(item: item),
           SizedBox(height: 32.h),
         ],

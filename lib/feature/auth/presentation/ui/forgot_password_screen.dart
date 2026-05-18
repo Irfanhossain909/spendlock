@@ -7,7 +7,9 @@ import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/component/auth_form_card.dart';
 import 'package:spendlock/core/component/spendlock_branding.dart';
 import 'package:spendlock/core/const/app_color.dart';
+import 'package:spendlock/core/route/app_routes.dart';
 import 'package:spendlock/core/utils/app_snackbar.dart';
+import 'package:spendlock/feature/auth/presentation/controller/verify_email_controller.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -29,7 +31,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     await Future<void>.delayed(const Duration(milliseconds: 500));
     setState(() => _loading = false);
     AppSnackBar.success('OTP sent to your email');
-    Get.back();
+    if (Get.isRegistered<VerifyEmailController>()) {
+      Get.delete<VerifyEmailController>(force: true);
+    }
+    Get.toNamed(
+      AppRoutes.instance.verifyEmailScreen,
+      arguments: {'forgotPassword': true},
+    );
   }
 
   @override
@@ -41,51 +49,52 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.black),
-          onPressed: Get.back,
-        ),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(gradient: AppColors.authBackground),
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SpendLockBranding(logoSize: 48),
-              SizedBox(height: 16.h),
-              AppText(data: 'Forgot Password', fontSize: 24.sp, fontWeight: FontWeight.w700),
-              SizedBox(height: 8.h),
-              AppText(
-                data: 'Enter your email and get OTP for verification',
-                fontSize: 14.sp,
-                color: AppColors.gray,
-                maxLines: 2,
-              ),
-              SizedBox(height: 24.h),
-              AuthFormCard(
-                child: Column(
-                  children: [
-                    AppInputField(
-                      label: 'Email',
-                      hint: 'Enter your email',
-                      controller: _emailController,
-                      prefixIcon: Icons.email_outlined,
-                      keyboardType: TextInputType.emailAddress,
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(gradient: AppColors.authBackground),
+          child: Center(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SpendLockBranding(logoSize: 48),
+                  SizedBox(height: 16.h),
+                  AppText(
+                    data: 'Forgot Password',
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  SizedBox(height: 8.h),
+                  AppText(
+                    data: 'Enter your email and get OTP for verification',
+                    fontSize: 14.sp,
+                    color: AppColors.gray,
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 24.h),
+                  AuthFormCard(
+                    child: Column(
+                      children: [
+                        AppInputField(
+                          label: 'Email',
+                          hint: 'Enter your email',
+                          controller: _emailController,
+                          prefixIcon: Icons.email,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        SizedBox(height: 20.h),
+                        AppButton(
+                          title: 'Get OTP',
+                          isLoading: _loading,
+                          onTap: _submit,
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 20.h),
-                    AppButton(
-                      title: 'Send OTP',
-                      isLoading: _loading,
-                      showArrow: true,
-                      onTap: _submit,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

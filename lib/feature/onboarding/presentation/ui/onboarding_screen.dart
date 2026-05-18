@@ -13,11 +13,13 @@ class OnboardingScreen extends GetView<OnboardingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      // backgroundColor: AppColors.background,
       body: SafeArea(
         child: Obx(() {
           if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
+            );
           }
 
           if (controller.items.isEmpty) {
@@ -52,7 +54,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                 child: Obx(
                   () => AppButton(
                     title: controller.actionButtonLabel,
-                    showArrow: true,
+                    // showArrow: true,
                     onTap: controller.next,
                   ),
                 ),
