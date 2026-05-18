@@ -128,7 +128,7 @@ class ProfileActionCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
             child: Row(
-              spacing: 8.w,
+              spacing: 12.w,
               children: [
                 Container(
                   padding: EdgeInsets.all(6.r),
