@@ -3,6 +3,9 @@ import 'package:spendlock/core/route/app_routes.dart';
 import 'package:spendlock/core/route/bindings/app_binding.dart';
 import 'package:spendlock/core/route/bindings/onboarding_binding.dart';
 import 'package:spendlock/core/route/bindings/auth_binding.dart';
+import 'package:spendlock/core/route/bindings/add_rules_binding.dart';
+import 'package:spendlock/core/route/bindings/select_rule_apps_binding.dart';
+import 'package:spendlock/core/route/bindings/set_rules_content_binding.dart';
 import 'package:spendlock/core/route/bindings/setup_binding.dart';
 import 'package:spendlock/core/route/bindings/splash_binding.dart';
 import 'package:spendlock/feature/auth/presentation/ui/forgot_password_screen.dart';
@@ -13,6 +16,9 @@ import 'package:spendlock/feature/auth/presentation/ui/verify_email_screen.dart'
 import 'package:spendlock/feature/navigation/presentation/ui/navigation_screen.dart';
 import 'package:spendlock/feature/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:spendlock/feature/profile/presentation/ui/connect_account_screen.dart';
+import 'package:spendlock/feature/rules/presentation/ui/add_ruls_screen.dart';
+import 'package:spendlock/feature/rules/presentation/ui/select_rule_apps_screen.dart';
+import 'package:spendlock/feature/rules/presentation/ui/set_ruls_content_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/budget_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/connect_bank_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/enable_notification_screen.dart';
@@ -127,5 +133,20 @@ List<GetPage<dynamic>> appRootRoutesFile = <GetPage<dynamic>>[
     name: AppRoutes.instance.connectAccountScreen,
     binding: ProfileBinding(),
     page: ConnectAccountScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.addRulsScreen,
+    page: AddRulsScreen.new,
+    binding: AddRulesBinding(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.setRulsContentScreen,
+    binding: SetRulesContentBinding(),
+    page: SetRulsContentScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.selectRuleAppsScreen,
+    binding: SelectRuleAppsBinding(),
+    page: SelectRuleAppsScreen.new,
   ),
 ];

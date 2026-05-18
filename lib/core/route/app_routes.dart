@@ -24,6 +24,9 @@ class AppRoutes {
   // Main tabs
   final String homeScreen = '/home-screen';
   final String rulesScreen = '/rules-screen';
+  final String addRulsScreen = '/add-ruls-screen';
+  final String setRulsContentScreen = '/set-ruls-content-screen';
+  final String selectRuleAppsScreen = '/select-rule-apps-screen';
   final String treeScreen = '/tree-screen';
   final String streakScreen = '/streak-screen';
   final String profileScreen = '/profile-screen';

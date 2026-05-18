@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_color.dart';
+import 'package:spendlock/core/route/app_routes.dart';
 import 'package:spendlock/feature/rules/presentation/controller/rules_controller.dart';
 import 'package:spendlock/feature/rules/presentation/model/rule_item.dart';
 import 'package:spendlock/feature/rules/presentation/widget/rule_card.dart';
@@ -67,7 +68,9 @@ class RulesScreen extends GetView<RulesController> {
                         color: AppColors.primary,
                         borderRadius: BorderRadius.circular(12.r),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Get.toNamed(AppRoutes.instance.addRulsScreen);
+                          },
                           borderRadius: BorderRadius.circular(12.r),
                           child: SizedBox(
                             width: 44.w,
