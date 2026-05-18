@@ -16,7 +16,6 @@ class HomeScreen extends GetView<HomeController> {
     return GetBuilder<HomeController>(
       builder: (controller) {
         return Scaffold(
-          backgroundColor: AppColors.background,
           body: SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 20.w),

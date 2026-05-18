@@ -27,4 +27,13 @@ class AppRoutes {
   final String treeScreen = '/tree-screen';
   final String streakScreen = '/streak-screen';
   final String profileScreen = '/profile-screen';
+  final String personalDetailsScreen = '/personal-details-screen';
+  final String changePasswordScreen = '/change-password-screen';
+  final String connectAccountScreen = '/connect-account-screen';
+
+  // Preference
+  final String myPreferenceScreen = '/my-preference-screen';
+  final String preferenceMotivationScreen = '/preference-motivation-screen';
+  final String preferenceTriggersScreen = '/preference-triggers-screen';
+  final String preferenceBudgetScreen = '/preference-budget-screen';
 }

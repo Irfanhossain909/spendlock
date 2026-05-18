@@ -12,10 +12,19 @@ import 'package:spendlock/feature/auth/presentation/ui/reset_password_screen.dar
 import 'package:spendlock/feature/auth/presentation/ui/verify_email_screen.dart';
 import 'package:spendlock/feature/navigation/presentation/ui/navigation_screen.dart';
 import 'package:spendlock/feature/onboarding/presentation/ui/onboarding_screen.dart';
+import 'package:spendlock/feature/profile/presentation/ui/connect_account_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/budget_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/connect_bank_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/enable_notification_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/set_challenge_screen.dart';
+import 'package:spendlock/core/route/bindings/preference_binding.dart';
+import 'package:spendlock/core/route/bindings/profile_binding.dart';
+import 'package:spendlock/feature/preference/presentation/ui/my_preference_screen.dart';
+import 'package:spendlock/feature/preference/presentation/ui/preference_budget_screen.dart';
+import 'package:spendlock/feature/preference/presentation/ui/preference_motivation_screen.dart';
+import 'package:spendlock/feature/preference/presentation/ui/preference_triggers_screen.dart';
+import 'package:spendlock/feature/profile/presentation/ui/change_password_screen.dart';
+import 'package:spendlock/feature/profile/presentation/ui/personal_details_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/set_goal_screen.dart';
 import 'package:spendlock/feature/splash/presentation/ui/splash_screen.dart';
 
@@ -75,10 +84,48 @@ List<GetPage<dynamic>> appRootRoutesFile = <GetPage<dynamic>>[
     binding: SetupBinding(),
     page: EnableNotificationScreen.new,
   ),
-  GetPage(name: AppRoutes.instance.connectBankScreen, page: ConnectBankScreen.new),
+  GetPage(
+    name: AppRoutes.instance.connectBankScreen,
+    page: ConnectBankScreen.new,
+  ),
   GetPage(
     name: AppRoutes.instance.budgetScreen,
     binding: SetupBinding(),
     page: BudgetScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.personalDetailsScreen,
+    binding: ProfileBinding(),
+    page: PersonalDetailsScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.changePasswordScreen,
+    binding: ProfileBinding(),
+    page: ChangePasswordScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.myPreferenceScreen,
+    binding: PreferenceBinding(),
+    page: MyPreferenceScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.preferenceMotivationScreen,
+    binding: PreferenceBinding(),
+    page: PreferenceMotivationScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.preferenceTriggersScreen,
+    binding: PreferenceBinding(),
+    page: PreferenceTriggersScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.preferenceBudgetScreen,
+    binding: PreferenceBinding(),
+    page: PreferenceBudgetScreen.new,
+  ),
+  GetPage(
+    name: AppRoutes.instance.connectAccountScreen,
+    binding: ProfileBinding(),
+    page: ConnectAccountScreen.new,
   ),
 ];

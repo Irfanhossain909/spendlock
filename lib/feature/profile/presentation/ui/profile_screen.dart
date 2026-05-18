@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:spendlock/core/component/app_image/app_image_circular.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
+import 'package:spendlock/core/component/appbar/custom_appbar.dart';
+import 'package:spendlock/core/component/auth_form_card.dart';
 import 'package:spendlock/core/const/app_color.dart';
+import 'package:spendlock/core/route/app_routes.dart';
+import 'package:spendlock/feature/profile/presentation/controller/personal_details_controller.dart';
 import 'package:spendlock/feature/profile/presentation/controller/profile_controller.dart';
 
 class ProfileScreen extends GetView<ProfileController> {
@@ -14,46 +19,204 @@ class ProfileScreen extends GetView<ProfileController> {
       builder: (controller) {
         return Scaffold(
           backgroundColor: AppColors.background,
-          appBar: AppBar(title: const Text('Profile')),
-          body: Obx(
-            () => ListView(
-              padding: EdgeInsets.all(20.w),
+          appBar: CustomAppbar(
+            showLeading: false,
+            text: 'Profile',
+            centerTitle: false,
+          ),
+          body: ListView(
+            padding: EdgeInsets.all(20.w),
+            children: [
+              InfoCard(),
+              SizedBox(height: 20.h),
+              ProfileActionCard(),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class ProfileActionCard extends StatelessWidget {
+  const ProfileActionCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12.r),
+        color: AppColors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 20,
+            spreadRadius: 2,
+            offset: const Offset(0, 0),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _profileActionTile(
+            icon: Icons.person,
+            title: "Personal info",
+            onTap: () => Get.toNamed(AppRoutes.instance.personalDetailsScreen),
+            color: AppColors.primary,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.lock_open_outlined,
+            title: "Change Password",
+            onTap: () => Get.toNamed(AppRoutes.instance.changePasswordScreen),
+            color: Colors.blueAccent,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.wallet,
+            title: "Connected accounts",
+            onTap: () {
+              Get.toNamed(AppRoutes.instance.connectAccountScreen);
+            },
+            color: Colors.orangeAccent,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.mediation_outlined,
+            title: "My Preference",
+            onTap: () => Get.toNamed(AppRoutes.instance.myPreferenceScreen),
+            color: Colors.deepPurpleAccent,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.wysiwyg_outlined,
+            title: "Terms and Condition",
+            onTap: () {},
+            color: Colors.red,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.support_agent_rounded,
+            title: "Help & Support",
+            onTap: () {},
+            color: Colors.green,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.verified_outlined,
+            title: "About SpendLock",
+            onTap: () {},
+            color: Colors.grey,
+            isDivider: false,
+          ),
+        ],
+      ),
+    );
+  }
+
+  _profileActionTile({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    required Color color,
+    required bool isDivider,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+            child: Row(
+              spacing: 8.w,
               children: [
-                Center(
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 40.r,
-                        backgroundColor: AppColors.primarySurface,
-                        child: Icon(Icons.person, size: 40.sp, color: AppColors.primary),
-                      ),
-                      SizedBox(height: 12.h),
-                      AppText(
-                        data: controller.userName.value,
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ],
+                Container(
+                  padding: EdgeInsets.all(6.r),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
+                  child: Icon(icon, size: 16.sp, color: color),
                 ),
-                SizedBox(height: 32.h),
-                _ProfileTile(icon: Icons.account_balance_wallet_outlined, title: 'Monthly Budget'),
-                _ProfileTile(icon: Icons.notifications_outlined, title: 'Notifications'),
-                _ProfileTile(icon: Icons.security_outlined, title: 'Security'),
-                _ProfileTile(icon: Icons.help_outline, title: 'About SpendLock'),
-                SizedBox(height: 24.h),
-                ListTile(
-                  leading: Icon(Icons.logout, color: AppColors.red, size: 22.sp),
-                  title: AppText(
-                    data: 'Log out',
-                    fontSize: 16.sp,
-                    color: AppColors.red,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  onTap: controller.logout,
+                AppText(
+                  data: title,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
                 ),
+                Spacer(),
+                Icon(Icons.chevron_right, size: 20.sp, color: AppColors.black),
               ],
             ),
+          ),
+          if (isDivider) Divider(color: AppColors.stroke),
+        ],
+      ),
+    );
+  }
+}
+
+class InfoCard extends GetView<ProfileController> {
+  const InfoCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<ProfileController>(
+      builder: (controller) {
+        return AuthFormCard(
+          horizontalPadding: 16.w,
+          verticalPadding: 12.h,
+          child: Row(
+            children: [
+              AppImageCircular(
+                url: PersonalDetailsController.defaultAvatarUrl,
+                width: 68.w,
+                height: 68.h,
+              ),
+              SizedBox(width: 12.w),
+              Column(
+                spacing: 4.h,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText(
+                    data: controller.userName,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  AppText(
+                    data: controller.userEmail,
+                    fontSize: 14.sp,
+                    color: AppColors.gray,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.orangeAccent.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Row(
+                      spacing: 4.w,
+                      children: [
+                        Icon(
+                          Icons.star,
+                          size: 16.sp,
+                          color: Colors.orangeAccent,
+                        ),
+                        AppText(
+                          data: 'Pro member',
+                          fontSize: 12.sp,
+                          color: Colors.orangeAccent,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         );
       },
@@ -78,8 +241,17 @@ class _ProfileTile extends StatelessWidget {
       ),
       child: ListTile(
         leading: Icon(icon, color: AppColors.primary),
-        title: AppText(data: title, fontSize: 15.sp, fontWeight: FontWeight.w500, fontFamily: 'inter'),
-        trailing: Icon(Icons.chevron_right, color: AppColors.lightGray, size: 22.sp),
+        title: AppText(
+          data: title,
+          fontSize: 15.sp,
+          fontWeight: FontWeight.w500,
+          fontFamily: 'inter',
+        ),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: AppColors.lightGray,
+          size: 22.sp,
+        ),
         onTap: () {},
       ),
     );

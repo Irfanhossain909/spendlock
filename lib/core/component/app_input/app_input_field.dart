@@ -12,6 +12,7 @@ class AppInputField extends StatefulWidget {
     this.controller,
     this.prefixIcon,
     this.isPassword = false,
+    this.readOnly = false,
     this.keyboardType,
     this.validator,
   });
@@ -21,6 +22,7 @@ class AppInputField extends StatefulWidget {
   final TextEditingController? controller;
   final IconData? prefixIcon;
   final bool isPassword;
+  final bool readOnly;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
 
@@ -45,6 +47,7 @@ class _AppInputFieldState extends State<AppInputField> {
         SizedBox(height: 12.h),
         TextFormField(
           controller: widget.controller,
+          readOnly: widget.readOnly,
           obscureText: widget.isPassword && _obscure,
           keyboardType: widget.keyboardType,
           validator: widget.validator,

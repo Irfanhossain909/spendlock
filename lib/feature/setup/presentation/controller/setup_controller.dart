@@ -23,7 +23,11 @@ class SetupController extends GetxController {
   void setBudget(double value) => monthlyBudget.value = value;
 
   Future<void> completeSetup() async {
-    await GetStorageServices.instance.setSetupDone(true);
+    final storage = GetStorageServices.instance;
+    await storage.setSelectedGoal(selectedGoal.value);
+    await storage.setSelectedChallenges(selectedChallenges.toList());
+    await storage.setMonthlyBudget(monthlyBudget.value);
+    await storage.setSetupDone(true);
     Get.offAllNamed(AppRoutes.instance.navigationScreen);
   }
 }

@@ -12,4 +12,5 @@ class AppAssets {
   static const String onBoarding3 = 'assets/images/onBoard3.png';
   static const String alartNotification = 'assets/images/alartNotification.svg';
   static const String bankAccount = 'assets/images/bank.svg';
+  static const String mastercard = 'assets/icons/Mastercard.png';
 }

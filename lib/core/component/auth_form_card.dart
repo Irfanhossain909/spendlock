@@ -3,7 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spendlock/core/const/app_color.dart';
 
 class AuthFormCard extends StatelessWidget {
-  const AuthFormCard({super.key, required this.child});
+  final double? horizontalPadding;
+
+  final double? verticalPadding;
+  const AuthFormCard({
+    super.key,
+    required this.child,
+    this.horizontalPadding,
+    this.verticalPadding,
+  });
 
   final Widget child;
 
@@ -11,7 +19,10 @@ class AuthFormCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: horizontalPadding ?? 20.w,
+        vertical: verticalPadding ?? 24.h,
+      ),
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(16.r),

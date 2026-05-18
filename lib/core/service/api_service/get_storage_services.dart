@@ -40,6 +40,42 @@ class GetStorageServices {
 
   String getName() => box.read(AppStorageKey.instance.name) ?? 'Sarah Leo';
 
+  Future<void> setEmail(String value) async {
+    try {
+      await box.write(AppStorageKey.instance.email, value);
+    } catch (e) {
+      AppLogger.error(e.toString());
+    }
+  }
+
+  String getEmail() =>
+      box.read(AppStorageKey.instance.email) ?? 'sarah@example.com';
+
+  Future<void> setSelectedGoal(int value) async {
+    await box.write(AppStorageKey.instance.selectedGoal, value);
+  }
+
+  int getSelectedGoal() => box.read(AppStorageKey.instance.selectedGoal) ?? 1;
+
+  Future<void> setSelectedChallenges(List<int> value) async {
+    await box.write(AppStorageKey.instance.selectedChallenges, value);
+  }
+
+  List<int> getSelectedChallenges() {
+    final stored = box.read(AppStorageKey.instance.selectedChallenges);
+    if (stored is List) {
+      return stored.cast<int>();
+    }
+    return [1];
+  }
+
+  Future<void> setMonthlyBudget(double value) async {
+    await box.write(AppStorageKey.instance.monthlyBudget, value);
+  }
+
+  double getMonthlyBudget() =>
+      (box.read(AppStorageKey.instance.monthlyBudget) ?? 2000).toDouble();
+
   Future<void> setOnboardingDone(bool value) async {
     await box.write(AppStorageKey.instance.onboardingDone, value);
   }
