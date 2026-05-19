@@ -21,6 +21,16 @@ class AppRoutes {
   final String connectBankScreen = '/connect-bank-screen';
   final String budgetScreen = '/budget-screen';
 
+  // Notification
+  final String notificationScreen = '/notification-screen';
+
+  // Lock Screen
+  final String lockScreen = '/lock-screen';
+
+  // Coin
+  final String myCoinScreen = '/my-coin-screen';
+  final String buyCoinScreen = '/buy-coin-screen';
+
   // Main tabs
   final String homeScreen = '/home-screen';
   final String rulesScreen = '/rules-screen';
@@ -33,6 +43,7 @@ class AppRoutes {
   final String personalDetailsScreen = '/personal-details-screen';
   final String changePasswordScreen = '/change-password-screen';
   final String connectAccountScreen = '/connect-account-screen';
+  final String appUseScreen = '/app-use-screen';
 
   // Preference
   final String myPreferenceScreen = '/my-preference-screen';

@@ -74,7 +74,7 @@ class ProfileActionCard extends StatelessWidget {
           ),
           _profileActionTile(
             icon: Icons.wallet,
-            title: "Connected accounts",
+            title: "Bank Account",
             onTap: () {
               Get.toNamed(AppRoutes.instance.connectAccountScreen);
             },
@@ -82,10 +82,24 @@ class ProfileActionCard extends StatelessWidget {
             isDivider: true,
           ),
           _profileActionTile(
+            icon: Icons.wallet,
+            title: "My Coins",
+            onTap: () => Get.toNamed(AppRoutes.instance.myCoinScreen),
+            color: Colors.yellow,
+            isDivider: true,
+          ),
+          _profileActionTile(
             icon: Icons.mediation_outlined,
             title: "My Preference",
             onTap: () => Get.toNamed(AppRoutes.instance.myPreferenceScreen),
             color: Colors.deepPurpleAccent,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.view_comfortable_outlined,
+            title: "App Use",
+            onTap: () => Get.toNamed(AppRoutes.instance.appUseScreen),
+            color: Colors.blueGrey,
             isDivider: true,
           ),
           _profileActionTile(

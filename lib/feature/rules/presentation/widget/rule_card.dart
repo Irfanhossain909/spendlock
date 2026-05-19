@@ -13,10 +13,11 @@ class RuleCard extends StatelessWidget {
     required this.duration,
     required this.icon,
     required this.iconBgColor,
-    required this.badgeType,
+    this.badgeType = RuleBadgeType.time,
     required this.socialIcons,
     required this.isActive,
     required this.onToggleChanged,
+    this.isActiveAction = false,
   });
 
   final String title;
@@ -29,6 +30,7 @@ class RuleCard extends StatelessWidget {
   final List<IconData> socialIcons;
   final bool isActive;
   final ValueChanged<bool> onToggleChanged;
+  final bool isActiveAction;
 
   @override
   Widget build(BuildContext context) {
@@ -146,31 +148,31 @@ class RuleCard extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Theme(
-                data: Theme.of(context).copyWith(
-                  switchTheme: SwitchThemeData(
-                    trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((
-                      states,
-                    ) {
-                      if (states.contains(WidgetState.selected)) {
-                        return AppColors.primary;
-                      }
-                      return Colors.transparent; // inactive border none
-                    }),
+              if (!isActiveAction)
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    switchTheme: SwitchThemeData(
+                      trackOutlineColor:
+                          WidgetStateProperty.resolveWith<Color?>((states) {
+                            if (states.contains(WidgetState.selected)) {
+                              return AppColors.primary;
+                            }
+                            return Colors.transparent; // inactive border none
+                          }),
+                    ),
+                  ),
+                  child: Switch(
+                    value: isActive,
+                    onChanged: onToggleChanged,
+                    activeThumbColor: AppColors.white,
+                    activeTrackColor: AppColors.primary,
+                    inactiveThumbColor: AppColors.white,
+                    inactiveTrackColor: AppColors.lightGray.withValues(
+                      alpha: 0.5,
+                    ),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                 ),
-                child: Switch(
-                  value: isActive,
-                  onChanged: onToggleChanged,
-                  activeThumbColor: AppColors.white,
-                  activeTrackColor: AppColors.primary,
-                  inactiveThumbColor: AppColors.white,
-                  inactiveTrackColor: AppColors.lightGray.withValues(
-                    alpha: 0.5,
-                  ),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
             ],
           ),
         ],

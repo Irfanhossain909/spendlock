@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
+import 'package:spendlock/core/const/app_assets.dart';
 import 'package:spendlock/core/const/app_color.dart';
 
 class StreakCard extends StatelessWidget {
@@ -27,42 +29,15 @@ class StreakCard extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            spacing: 4.w,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    data: 'CURRENT STREAK',
-                    fontSize: 12.sp,
-                    color: AppColors.gray,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.7,
-                    fontFamily: 'hanken',
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      AppText(
-                        data: '$streakDays',
-                        fontSize: 36.sp,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'hanken',
-                      ),
-                      SizedBox(width: 6.w),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 6.h),
-                        child: AppText(
-                          data: 'DAYS',
-                          fontSize: 12.sp,
-                          color: AppColors.gray,
-                          fontWeight: FontWeight.w700,
-                          fontFamily: 'hanken',
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              AppText(
+                data: 'CURRENT STREAK',
+                fontSize: 12.sp,
+                color: AppColors.gray,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.7,
+                fontFamily: 'hanken',
               ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
@@ -78,10 +53,60 @@ class StreakCard extends StatelessWidget {
                   fontFamily: 'hanken',
                 ),
               ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: AppColors.coinBg,
+                  border: Border.all(
+                    color: AppColors.coinGold.withValues(alpha: 0.2),
+                  ),
+                  borderRadius: BorderRadius.circular(999.r),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.monetization_on,
+                      color: AppColors.coinGold,
+                      size: 18.sp,
+                    ),
+                    SizedBox(width: 4.w),
+                    AppText(
+                      data: '12 COINS',
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF3A0B00),
+                      fontFamily: 'hanken',
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              AppText(
+                data: '$streakDays',
+                fontSize: 36.sp,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'hanken',
+              ),
+              SizedBox(width: 6.w),
+              Padding(
+                padding: EdgeInsets.only(bottom: 6.h),
+                child: AppText(
+                  data: 'DAYS',
+                  fontSize: 12.sp,
+                  color: AppColors.gray,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'hanken',
+                ),
+              ),
             ],
           ),
           SizedBox(height: 16.h),
-          Icon(Icons.park, size: 80.sp, color: AppColors.primary),
+          SvgPicture.asset(AppAssets.moneyTree, width: 190.w, height: 190.h),
           SizedBox(height: 16.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,9 +136,7 @@ class StreakCard extends StatelessWidget {
                   margin: EdgeInsets.only(right: i < 6 ? 6.w : 0),
                   height: 6.h,
                   decoration: BoxDecoration(
-                    color: filled
-                        ? AppColors.primary
-                        : const Color(0x3364748B),
+                    color: filled ? AppColors.primary : const Color(0x3364748B),
                     borderRadius: BorderRadius.circular(999.r),
                   ),
                 ),

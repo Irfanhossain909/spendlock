@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:spendlock/core/route/app_routes.dart';
 import 'package:spendlock/core/route/bindings/app_binding.dart';
+import 'package:spendlock/core/route/bindings/coin_binding.dart';
 import 'package:spendlock/core/route/bindings/onboarding_binding.dart';
 import 'package:spendlock/core/route/bindings/auth_binding.dart';
 import 'package:spendlock/core/route/bindings/add_rules_binding.dart';
@@ -13,7 +14,11 @@ import 'package:spendlock/feature/auth/presentation/ui/login_screen.dart';
 import 'package:spendlock/feature/auth/presentation/ui/register_screen.dart';
 import 'package:spendlock/feature/auth/presentation/ui/reset_password_screen.dart';
 import 'package:spendlock/feature/auth/presentation/ui/verify_email_screen.dart';
+import 'package:spendlock/feature/coin/presentation/ui/buy_coin_screen.dart';
+import 'package:spendlock/feature/coin/presentation/ui/my_coin_screen.dart';
+import 'package:spendlock/feature/lock_screen/presentation/ui/lock_screen.dart';
 import 'package:spendlock/feature/navigation/presentation/ui/navigation_screen.dart';
+import 'package:spendlock/feature/nofication/presentation/ui/notification_screen.dart';
 import 'package:spendlock/feature/onboarding/presentation/ui/onboarding_screen.dart';
 import 'package:spendlock/feature/profile/presentation/ui/connect_account_screen.dart';
 import 'package:spendlock/feature/rules/presentation/ui/add_ruls_screen.dart';
@@ -29,6 +34,7 @@ import 'package:spendlock/feature/preference/presentation/ui/my_preference_scree
 import 'package:spendlock/feature/preference/presentation/ui/preference_budget_screen.dart';
 import 'package:spendlock/feature/preference/presentation/ui/preference_motivation_screen.dart';
 import 'package:spendlock/feature/preference/presentation/ui/preference_triggers_screen.dart';
+import 'package:spendlock/feature/profile/presentation/ui/app_use_screen.dart';
 import 'package:spendlock/feature/profile/presentation/ui/change_password_screen.dart';
 import 'package:spendlock/feature/profile/presentation/ui/personal_details_screen.dart';
 import 'package:spendlock/feature/setup/presentation/ui/set_goal_screen.dart';
@@ -134,6 +140,7 @@ List<GetPage<dynamic>> appRootRoutesFile = <GetPage<dynamic>>[
     binding: ProfileBinding(),
     page: ConnectAccountScreen.new,
   ),
+  GetPage(name: AppRoutes.instance.appUseScreen, page: AppUseScreen.new),
   GetPage(
     name: AppRoutes.instance.addRulsScreen,
     page: AddRulsScreen.new,
@@ -149,4 +156,20 @@ List<GetPage<dynamic>> appRootRoutesFile = <GetPage<dynamic>>[
     binding: SelectRuleAppsBinding(),
     page: SelectRuleAppsScreen.new,
   ),
+
+  GetPage(
+    name: AppRoutes.instance.myCoinScreen,
+    page: MyCoinScreen.new,
+    binding: CoinBinding(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.buyCoinScreen,
+    page: BuyCoinScreen.new,
+    binding: CoinBinding(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.notificationScreen,
+    page: NotificationScreen.new,
+  ),
+  GetPage(name: AppRoutes.instance.lockScreen, page: LockScreen.new),
 ];

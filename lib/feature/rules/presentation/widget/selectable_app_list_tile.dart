@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spendlock/core/component/app_image/app_image_circular.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/feature/rules/presentation/model/selectable_app_item.dart';
@@ -33,16 +34,13 @@ class SelectableAppListTile extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 44.w,
-                height: 44.w,
-                decoration: BoxDecoration(
-                  color: app.iconBgColor ?? AppColors.primarySurface,
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                child: Icon(
-                  app.icon,
-                  size: 24.sp,
-                  color: app.iconColor ?? AppColors.primary,
+                padding: EdgeInsets.all(4.w),
+                child: AppImageCircular(
+                  path: app.icon,
+                  width: 38.w,
+                  height: 38.w,
+                  borderRadius: 12.r,
+                  fit: BoxFit.cover,
                 ),
               ),
               SizedBox(width: 12.w),

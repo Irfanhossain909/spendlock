@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
         title: 'SpendLock',
         theme: AppTheme.lightTheme,
         getPages: appRootRoutesFile,
+        // initialRoute: AppRoutes.instance.lockScreen,
         initialRoute: _getInitialRoute(),
       ),
     );
