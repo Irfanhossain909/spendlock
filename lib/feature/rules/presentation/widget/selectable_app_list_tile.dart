@@ -35,13 +35,7 @@ class SelectableAppListTile extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.all(4.w),
-                child: AppImageCircular(
-                  path: app.icon,
-                  width: 38.w,
-                  height: 38.w,
-                  borderRadius: 12.r,
-                  fit: BoxFit.cover,
-                ),
+                child: _AppIcon(app: app),
               ),
               SizedBox(width: 12.w),
               Expanded(
@@ -84,6 +78,34 @@ class SelectableAppListTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _AppIcon extends StatelessWidget {
+  const _AppIcon({required this.app});
+
+  final SelectableAppItem app;
+
+  @override
+  Widget build(BuildContext context) {
+    if (app.iconBytes != null) {
+      return AppImageCircular(
+        path: null,
+        width: 38.w,
+        height: 38.w,
+        borderRadius: 12.r,
+        fit: BoxFit.cover,
+        memoryBytes: app.iconBytes,
+      );
+    }
+
+    return AppImageCircular(
+      path: app.icon,
+      width: 38.w,
+      height: 38.w,
+      borderRadius: 12.r,
+      fit: BoxFit.cover,
     );
   }
 }

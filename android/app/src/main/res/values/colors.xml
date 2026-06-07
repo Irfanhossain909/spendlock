@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="spendlock_primary">#0E8279</color>
+    <color name="spendlock_black">#041C37</color>
+    <color name="spendlock_gray">#6B7B95</color>
+    <color name="spendlock_light_gray">#B4BECE</color>
+    <color name="spendlock_coin_gold">#FFB800</color>
+    <color name="spendlock_white">#FFFFFF</color>
+    <color name="spendlock_stroke">#1A1B3662</color>
+    <color name="spendlock_primary_tint">#1A0E8279</color>
+    <color name="spendlock_coin_bg">#1AFFB800</color>
+</resources>

@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         getPages: appRootRoutesFile,
         // initialRoute: AppRoutes.instance.lockScreen,
+        // initialRoute: AppRoutes.instance.selectRuleAppsScreen,
         initialRoute: _getInitialRoute(),
       ),
     );

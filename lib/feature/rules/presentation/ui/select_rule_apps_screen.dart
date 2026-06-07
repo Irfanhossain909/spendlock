@@ -69,11 +69,21 @@ class SelectRuleAppsScreen extends GetView<SelectRuleAppsController> {
             Expanded(
               child: Obx(
                 () {
+                  if (controller.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    );
+                  }
+
                   final apps = controller.filteredApps;
                   if (apps.isEmpty) {
                     return Center(
                       child: AppText(
-                        data: 'No apps match your search',
+                        data: controller.searchQuery.value.trim().isEmpty
+                            ? 'No installed apps found'
+                            : 'No apps match your search',
                         fontSize: 14.sp,
                         color: AppColors.gray,
                         fontFamily: 'inter',
@@ -100,8 +110,10 @@ class SelectRuleAppsScreen extends GetView<SelectRuleAppsController> {
             ),
             Obx(
               () => AppButton(
-                title: 'Confirm',
-                onTap: controller.hasSelection ? controller.confirm : null,
+                title: controller.isSaving.value ? 'Saving...' : 'Confirm',
+                onTap: controller.hasSelection && !controller.isSaving.value
+                    ? controller.confirm
+                    : null,
               ),
             ),
             SizedBox(height: 24.h),

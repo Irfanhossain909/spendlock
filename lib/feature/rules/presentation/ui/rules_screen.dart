@@ -8,17 +8,28 @@ import 'package:spendlock/feature/rules/presentation/controller/rules_controller
 import 'package:spendlock/feature/rules/presentation/model/rule_item.dart';
 import 'package:spendlock/feature/rules/presentation/widget/rule_card.dart';
 
-class RulesScreen extends GetView<RulesController> {
+class RulesScreen extends StatelessWidget {
   const RulesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = RulesController.to;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Obx(
           () {
-            final filtered = controller.filteredRules;
+            final filter = controller.selectedFilter.value;
+            final allRules = controller.rules.toList();
+            final filtered = controller.filteredRulesFor(filter);
+            final isLoading = controller.isLoading.value;
+
+            if (isLoading && allRules.isEmpty) {
+              return const Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              );
+            }
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,19 +55,19 @@ class RulesScreen extends GetView<RulesController> {
                             children: [
                               _FilterChip(
                                 label: 'All',
-                                selected: controller.selectedFilter.value == RulesFilter.all,
+                                selected: filter == RulesFilter.all,
                                 onTap: () => controller.changeFilter(RulesFilter.all),
                               ),
                               SizedBox(width: 8.w),
                               _FilterChip(
                                 label: 'Active',
-                                selected: controller.selectedFilter.value == RulesFilter.active,
+                                selected: filter == RulesFilter.active,
                                 onTap: () => controller.changeFilter(RulesFilter.active),
                               ),
                               SizedBox(width: 8.w),
                               _FilterChip(
                                 label: 'Paused',
-                                selected: controller.selectedFilter.value == RulesFilter.paused,
+                                selected: filter == RulesFilter.paused,
                                 onTap: () => controller.changeFilter(RulesFilter.paused),
                               ),
                             ],
@@ -86,7 +97,7 @@ class RulesScreen extends GetView<RulesController> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: AppText(
-                    data: 'Time Based Rules (${filtered.length})',
+                    data: 'My Rules (${filtered.length})',
                     fontSize: 14.sp,
                     color: AppColors.gray,
                     fontFamily: 'inter',
@@ -97,16 +108,19 @@ class RulesScreen extends GetView<RulesController> {
                   child: filtered.isEmpty
                       ? Center(
                           child: AppText(
-                            data: 'No rules found',
+                            data: filter == RulesFilter.all
+                                ? 'No rules yet. Tap + to create one.'
+                                : 'No rules found',
                             fontSize: 14.sp,
                             color: AppColors.gray,
                             fontFamily: 'inter',
+                            textAlign: TextAlign.center,
                           ),
                         )
                       : ListView.separated(
                           padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 100.h),
                           itemCount: filtered.length,
-                          separatorBuilder: (_, __) => SizedBox(height: 12.h),
+                          separatorBuilder: (_, index) => SizedBox(height: 12.h),
                           itemBuilder: (context, index) {
                             final rule = filtered[index];
 
@@ -115,12 +129,15 @@ class RulesScreen extends GetView<RulesController> {
                               time: rule.time,
                               socialName: rule.socialName,
                               duration: rule.duration,
+                              statusLabel: rule.statusLabel,
                               icon: rule.icon,
                               iconBgColor: rule.iconBgColor,
                               badgeType: rule.badgeType,
                               socialIcons: rule.socialIcons,
                               isActive: rule.isActive,
-                              onToggleChanged: (value) => controller.toggleRule(rule.id, value),
+                              onToggleChanged: (value) =>
+                                  controller.toggleRule(rule.id, value),
+                              onDelete: () => controller.deleteRule(rule.id),
                             );
                           },
                         ),

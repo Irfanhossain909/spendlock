@@ -7,6 +7,7 @@ import 'package:spendlock/core/route/bindings/auth_binding.dart';
 import 'package:spendlock/core/route/bindings/add_rules_binding.dart';
 import 'package:spendlock/core/route/bindings/select_rule_apps_binding.dart';
 import 'package:spendlock/core/route/bindings/set_rules_content_binding.dart';
+import 'package:spendlock/core/route/bindings/lock_screen_binding.dart';
 import 'package:spendlock/core/route/bindings/setup_binding.dart';
 import 'package:spendlock/core/route/bindings/splash_binding.dart';
 import 'package:spendlock/feature/auth/presentation/ui/forgot_password_screen.dart';
@@ -171,5 +172,9 @@ List<GetPage<dynamic>> appRootRoutesFile = <GetPage<dynamic>>[
     name: AppRoutes.instance.notificationScreen,
     page: NotificationScreen.new,
   ),
-  GetPage(name: AppRoutes.instance.lockScreen, page: LockScreen.new),
+  GetPage(
+    name: AppRoutes.instance.lockScreen,
+    page: LockScreen.new,
+    binding: LockScreenBinding(),
+  ),
 ];

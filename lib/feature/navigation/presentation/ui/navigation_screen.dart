@@ -28,12 +28,12 @@ class NavigationScreen extends GetView<NavigationController> {
           body: Obx(
             () => IndexedStack(
               index: controller.selectedIndex.value,
-              children: const [
-                HomeScreen(),
-                RulesScreen(),
-                TreeScreen(),
-                StreakScreen(),
-                ProfileScreen(),
+              children: [
+                const HomeScreen(),
+                const RulesScreen(),
+                const TreeScreen(),
+                const StreakScreen(),
+                const ProfileScreen(),
               ],
             ),
           ),

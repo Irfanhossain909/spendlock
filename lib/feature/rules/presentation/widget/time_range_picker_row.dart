@@ -10,12 +10,14 @@ class TimeRangePickerRow extends StatelessWidget {
     required this.to,
     required this.onFromChanged,
     required this.onToChanged,
+    this.timezoneLabel,
   });
 
   final TimeOfDay from;
   final TimeOfDay to;
   final ValueChanged<TimeOfDay> onFromChanged;
   final ValueChanged<TimeOfDay> onToChanged;
+  final String? timezoneLabel;
 
   String _formatTime(TimeOfDay time) {
     final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
@@ -56,6 +58,15 @@ class TimeRangePickerRow extends StatelessWidget {
           fontWeight: FontWeight.w600,
           fontFamily: 'inter',
         ),
+        if (timezoneLabel != null) ...[
+          SizedBox(height: 4.h),
+          AppText(
+            data: 'Device timezone: $timezoneLabel',
+            fontSize: 12.sp,
+            color: AppColors.gray,
+            fontFamily: 'inter',
+          ),
+        ],
         SizedBox(height: 8.h),
         Row(
           children: [

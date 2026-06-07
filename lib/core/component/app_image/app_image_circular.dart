@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -16,11 +17,13 @@ class AppImageCircular extends StatelessWidget {
     this.filePath,
     this.borderRadius = 100,
     this.borderColor = Colors.transparent,
+    this.memoryBytes,
   });
 
   final String? path;
   final String? filePath;
   final String? url;
+  final Uint8List? memoryBytes;
   final BoxFit? fit;
   final double? width;
   final double? height;
@@ -30,6 +33,22 @@ class AppImageCircular extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // >>>>>>>>>>>>>>>>>>>>>> Memory image <<<<<<<<<<<<<<<<<<<<<<
+    if (memoryBytes != null) {
+      return _wrapper(
+        Image.memory(
+          memoryBytes!,
+          width: width,
+          height: height,
+          fit: fit,
+          errorBuilder: (_, error, _) {
+            log("Error loading memory image: $error");
+            return _buildDefaultImage();
+          },
+        ),
+      );
+    }
+
     // >>>>>>>>>>>>>>>>>>>>>> File image <<<<<<<<<<<<<<<<<<<<<<
     if (filePath != null) {
       return _wrapper(

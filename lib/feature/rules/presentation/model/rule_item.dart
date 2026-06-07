@@ -16,6 +16,7 @@ class RuleItem {
     required this.badgeType,
     required this.socialIcons,
     this.isActive = true,
+    this.statusLabel = 'Active',
   });
 
   final String id;
@@ -23,6 +24,7 @@ class RuleItem {
   final String time;
   final String socialName;
   final String duration;
+  final String statusLabel;
   final IconData icon;
   final Color iconBgColor;
   final RuleBadgeType badgeType;

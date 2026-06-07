@@ -11,12 +11,14 @@ class RuleCard extends StatelessWidget {
     required this.time,
     required this.socialName,
     required this.duration,
+    this.statusLabel = 'Active',
     required this.icon,
     required this.iconBgColor,
     this.badgeType = RuleBadgeType.time,
     required this.socialIcons,
     required this.isActive,
     required this.onToggleChanged,
+    this.onDelete,
     this.isActiveAction = false,
   });
 
@@ -24,12 +26,14 @@ class RuleCard extends StatelessWidget {
   final String time;
   final String socialName;
   final String duration;
+  final String statusLabel;
   final IconData icon;
   final Color iconBgColor;
   final RuleBadgeType badgeType;
   final List<IconData> socialIcons;
   final bool isActive;
   final ValueChanged<bool> onToggleChanged;
+  final VoidCallback? onDelete;
   final bool isActiveAction;
 
   @override
@@ -127,6 +131,21 @@ class RuleCard extends StatelessWidget {
                   ],
                 ),
               ),
+              if (onDelete != null) ...[
+                SizedBox(width: 8.w),
+                InkWell(
+                  onTap: onDelete,
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Padding(
+                    padding: EdgeInsets.all(4.w),
+                    child: Icon(
+                      Icons.delete_outline,
+                      size: 20.sp,
+                      color: AppColors.red,
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
           SizedBox(height: 12.h),
@@ -136,14 +155,30 @@ class RuleCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryMint,
+                  color: isActive ? AppColors.primaryMint : AppColors.stroke,
                   borderRadius: BorderRadius.circular(999.r),
+                ),
+                child: AppText(
+                  data: statusLabel,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  color: isActive ? AppColors.primary : AppColors.gray,
+                  fontFamily: 'inter',
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                decoration: BoxDecoration(
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.circular(999.r),
+                  border: Border.all(color: AppColors.stroke),
                 ),
                 child: AppText(
                   data: duration,
                   fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.gray,
                   fontFamily: 'inter',
                 ),
               ),

@@ -72,6 +72,7 @@ class _SetRulsContentScreenState extends State<SetRulsContentScreen> {
                         TimeRangePickerRow(
                           from: controller.timeFrom.value,
                           to: controller.timeTo.value,
+                          timezoneLabel: controller.timezoneLabel.value,
                           onFromChanged: controller.updateTimeFrom,
                           onToChanged: controller.updateTimeTo,
                         ),
