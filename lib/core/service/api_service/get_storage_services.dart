@@ -93,5 +93,10 @@ class GetStorageServices {
     await box.remove(AppStorageKey.instance.token);
     await box.remove(AppStorageKey.instance.isGuest);
     await box.remove(AppStorageKey.instance.setupDone);
+    await box.remove(AppStorageKey.instance.name);
+    await box.remove(AppStorageKey.instance.email);
+    await box.remove(AppStorageKey.instance.selectedGoal);
+    await box.remove(AppStorageKey.instance.selectedChallenges);
+    await box.remove(AppStorageKey.instance.monthlyBudget);
   }
 }

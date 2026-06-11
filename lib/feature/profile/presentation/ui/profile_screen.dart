@@ -38,7 +38,7 @@ class ProfileScreen extends GetView<ProfileController> {
   }
 }
 
-class ProfileActionCard extends StatelessWidget {
+class ProfileActionCard extends GetView<ProfileController> {
   const ProfileActionCard({super.key});
 
   @override
@@ -121,9 +121,15 @@ class ProfileActionCard extends StatelessWidget {
             title: "About SpendLock",
             onTap: () {},
             color: Colors.grey,
+            isDivider: true,
+          ),
+          _profileActionTile(
+            icon: Icons.logout_rounded,
+            title: "Log out",
+            onTap: controller.logout,
+            color: Colors.redAccent,
             isDivider: false,
           ),
-          
         ],
       ),
     );

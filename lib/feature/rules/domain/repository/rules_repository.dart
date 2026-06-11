@@ -75,6 +75,18 @@ class RulesRepository {
     }
   }
 
+  /// Logout এর সময় সব locally saved rules clear করে
+  Future<void> clearAllRules() async {
+    if (!HiveService.instance.isInitialized) return;
+
+    try {
+      await HiveService.instance.rulesBox.clear();
+    } catch (error) {
+      AppLogger.error('Failed to clear rules: $error');
+      rethrow;
+    }
+  }
+
   RuleModel? _parseRule(dynamic raw) {
     if (raw is Map) {
       return RuleModel.fromJson(Map<String, dynamic>.from(raw));

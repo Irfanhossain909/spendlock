@@ -16,7 +16,11 @@ class NavigationScreen extends GetView<NavigationController> {
     (Icons.home_outlined, Icons.home, 'Home'),
     (Icons.description_outlined, Icons.description, 'Rules'),
     (Icons.eco_outlined, Icons.eco, 'Tree'),
-    (Icons.local_fire_department_outlined, Icons.local_fire_department, 'Streak'),
+    (
+      Icons.local_fire_department_outlined,
+      Icons.local_fire_department,
+      'Streak',
+    ),
     (Icons.person_outline, Icons.person, 'Profile'),
   ];
 
@@ -66,7 +70,9 @@ class NavigationScreen extends GetView<NavigationController> {
                             Icon(
                               selected ? tab.$2 : tab.$1,
                               size: 24.sp,
-                              color: selected ? AppColors.primary : AppColors.lightGray,
+                              color: selected
+                                  ? AppColors.primary
+                                  : AppColors.lightGray,
                             ),
                             SizedBox(height: 4.h),
                             Text(
@@ -74,7 +80,9 @@ class NavigationScreen extends GetView<NavigationController> {
                               style: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.w700,
-                                color: selected ? AppColors.primary : AppColors.lightGray,
+                                color: selected
+                                    ? AppColors.primary
+                                    : AppColors.lightGray,
                               ),
                             ),
                           ],
