@@ -36,7 +36,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     }
     Get.toNamed(
       AppRoutes.instance.verifyEmailScreen,
-      arguments: {'forgotPassword': true},
+      arguments: {
+        'forgotPassword': true,
+        'email': _emailController.text.trim(),
+      },
     );
   }
 

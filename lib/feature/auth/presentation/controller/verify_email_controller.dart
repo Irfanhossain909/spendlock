@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spendlock/core/route/app_routes.dart';
-import 'package:spendlock/core/service/api_service/get_storage_services.dart';
 import 'package:spendlock/core/utils/app_snackbar.dart';
+import 'package:spendlock/feature/auth/domain/repository/auth_repository.dart';
 
 class VerifyEmailController extends GetxController {
   static const int _otpTimerSeconds = 60;
@@ -12,7 +13,9 @@ class VerifyEmailController extends GetxController {
   final remainingSeconds = _otpTimerSeconds.obs;
   final canResend = false.obs;
 
-  String _otpCode = '';
+  final AuthRepository authRepository = AuthRepository.instance;
+
+  List<TextEditingController?>? _otpControllers;
   Timer? _timer;
 
   bool get isForgotPasswordFlow {
@@ -21,6 +24,14 @@ class VerifyEmailController extends GetxController {
       return args['forgotPassword'] == true;
     }
     return args == true;
+  }
+
+  String get email {
+    final args = Get.arguments;
+    if (args is Map) {
+      return args['email']?.toString().trim() ?? '';
+    }
+    return '';
   }
 
   String get formattedTimer {
@@ -35,34 +46,63 @@ class VerifyEmailController extends GetxController {
     _startTimer();
   }
 
-  void onOtpChanged(String code) {
-    _otpCode = code;
+  void setOtpControllers(List<TextEditingController?> controllers) {
+    _otpControllers = controllers;
+  }
+
+  String _readOtpFromFields() {
+    final controllers = _otpControllers;
+    if (controllers == null) return '';
+    return controllers.map((c) => c?.text ?? '').join();
   }
 
   Future<void> resendOtp() async {
-    if (!canResend.value) return;
-    AppSnackBar.success('OTP sent to your email');
-    _startTimer();
+    if (!canResend.value || isLoading.value) return;
+
+    if (email.isEmpty) {
+      AppSnackBar.error('Email not found');
+      return;
+    }
+
+    isLoading.value = true;
+    try {
+      final response = await authRepository.resendEmailOtp(email: email);
+      if (response) {
+        AppSnackBar.success('OTP sent to your email');
+        _startTimer();
+      }
+    } catch (e) {
+      AppSnackBar.error(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> verify([String? code]) async {
-    final otp = (code ?? _otpCode).trim();
+    final otp = (code ?? _readOtpFromFields()).trim();
     if (otp.length < 4) {
       AppSnackBar.error('Enter the 4-digit code');
       return;
     }
+
     isLoading.value = true;
-    await Future<void>.delayed(const Duration(milliseconds: 500));
-    isLoading.value = false;
+    try {
+      if (isForgotPasswordFlow) {
+        Get.toNamed(AppRoutes.instance.resetPasswordScreen);
+        return;
+      }
 
-    if (isForgotPasswordFlow) {
-      Get.toNamed(AppRoutes.instance.resetPasswordScreen);
-      return;
+      final response = await authRepository.emailVerify(otp: otp);
+      if (response) {
+        Get.offAllNamed(AppRoutes.instance.setGoalScreen);
+      } else {
+        AppSnackBar.error('Email verification failed');
+      }
+    } catch (e) {
+      AppSnackBar.error(e.toString());
+    } finally {
+      isLoading.value = false;
     }
-
-    await GetStorageServices.instance.setToken('verified_token');
-    await GetStorageServices.instance.setName('Sarah Leo');
-    Get.offAllNamed(AppRoutes.instance.setGoalScreen);
   }
 
   void _startTimer() {

@@ -20,10 +20,7 @@ class VerifyEmailScreen extends GetView<VerifyEmailController> {
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 24.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
               child: Column(
                 children: [
                   const SpendLockBranding(logoSize: 66, centered: true),
@@ -63,8 +60,7 @@ class VerifyEmailScreen extends GetView<VerifyEmailController> {
                             fontWeight: FontWeight.w600,
                             color: AppColors.black,
                           ),
-                          onCodeChanged: controller.onOtpChanged,
-                          onSubmit: controller.verify,
+                          handleControllers: controller.setOtpControllers,
                         ),
                         SizedBox(height: 20.h),
                         AppText(

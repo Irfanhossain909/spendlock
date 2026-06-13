@@ -8,6 +8,7 @@ import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/component/appbar/custom_appbar.dart';
 import 'package:spendlock/core/component/auth_form_card.dart';
 import 'package:spendlock/core/const/app_color.dart';
+import 'package:spendlock/core/service/api_service/app_api_end_point.dart';
 import 'package:spendlock/feature/profile/presentation/controller/personal_details_controller.dart';
 
 class PersonalDetailsScreen extends GetView<PersonalDetailsController> {
@@ -47,7 +48,7 @@ class PersonalDetailsScreen extends GetView<PersonalDetailsController> {
                         controller: controller.emailController,
                         prefixIcon: Icons.email_outlined,
                         keyboardType: TextInputType.emailAddress,
-                        readOnly: !controller.isEditing,
+                        readOnly: true,
                       ),
                       SizedBox(height: 20.h),
                       AppButton(
@@ -80,7 +81,10 @@ class _ProfileAvatarSection extends StatelessWidget {
           clipBehavior: Clip.none,
           children: [
             AppImageCircular(
-              url: PersonalDetailsController.defaultAvatarUrl,
+              filePath: controller.selectedImagePath,
+              url: controller.selectedImagePath == null
+                  ? "${AppApiEndPoint.domain}${controller.profileImageUrl}"
+                  : null,
               width: 100.w,
               height: 100.w,
             ),

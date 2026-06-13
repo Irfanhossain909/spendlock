@@ -126,105 +126,109 @@ class AuthRepository {
     }
   }
 
-  // Future<bool> signUp({
-  //   required String name,
-  //   required String email,
-  //   required String password,
-  // }) async {
-  //   try {
-  //     Map<String, String> body = {
-  //       "name": name,
-  //       "email": email,
-  //       "password": password,
-  //     };
+  Future<bool> signUp({
+    required String name,
+    required String email,
+    required String password,
+    required String confirmPassword,
+    String authProvider = "local",
+  }) async {
+    try {
+      Map<String, String> body = {
+        "name": name,
+        "email": email,
+        "password": password,
+        "confirm_password": confirmPassword,
+        "auth_provider": authProvider,
+      };
 
-  //     appInPutUnfocused();
+      appInPutUnfocused();
 
-  //     var response = await nonAuthApi.sendRequest.post(
-  //       AppApiEndPoint.instance.signUp,
-  //       data: body,
-  //     );
+      var response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.signUp,
+        data: body,
+      );
 
-  //     AppLogger.api(response.toString());
+      AppLogger.api(response.toString());
 
-  //     if (response.data["success"] == true) {
-  //       appInPutUnfocused();
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } on DioException catch (error) {
-  //     appInPutUnfocused();
+      if (response.data["success"] == true) {
+        appInPutUnfocused();
+        return true;
+      } else {
+        return false;
+      }
+    } on DioException catch (error) {
+      appInPutUnfocused();
 
-  //     String errorMessage = "Something went wrong";
+      String errorMessage = "Something went wrong";
 
-  //     if (error.response != null && error.response?.data != null) {
-  //       var responseData = error.response?.data;
+      if (error.response != null && error.response?.data != null) {
+        var responseData = error.response?.data;
 
-  //       // Check different error message formats
-  //       if (responseData is Map) {
-  //         // Check for errorMessages array
-  //         if (responseData["errorMessages"] != null &&
-  //             responseData["errorMessages"] is List &&
-  //             responseData["errorMessages"].isNotEmpty) {
-  //           var firstError = responseData["errorMessages"][0];
-  //           errorMessage = firstError is Map
-  //               ? (firstError["message"] ?? firstError.toString())
-  //               : firstError.toString();
-  //         }
-  //         // Check for direct message field
-  //         else if (responseData["message"] != null) {
-  //           errorMessage = responseData["message"].toString();
-  //         }
-  //         // Check for error field
-  //         else if (responseData["error"] != null) {
-  //           errorMessage = responseData["error"].toString();
-  //         }
-  //       } else if (responseData is String) {
-  //         errorMessage = responseData;
-  //       }
+        // Check different error message formats
+        if (responseData is Map) {
+          // Check for errorMessages array
+          if (responseData["errorMessages"] != null &&
+              responseData["errorMessages"] is List &&
+              responseData["errorMessages"].isNotEmpty) {
+            var firstError = responseData["errorMessages"][0];
+            errorMessage = firstError is Map
+                ? (firstError["message"] ?? firstError.toString())
+                : firstError.toString();
+          }
+          // Check for direct message field
+          else if (responseData["message"] != null) {
+            errorMessage = responseData["message"].toString();
+          }
+          // Check for error field
+          else if (responseData["error"] != null) {
+            errorMessage = responseData["error"].toString();
+          }
+        } else if (responseData is String) {
+          errorMessage = responseData;
+        }
 
-  //       Get.snackbar("Error", errorMessage);
-  //       AppLogger.error(
-  //         "SignUp DioException [${error.response?.statusCode}]: $errorMessage",
-  //       );
-  //     } else {
-  //       // Network error or other issues
-  //       errorMessage = "Network error. Please check your connection.";
-  //       Get.snackbar("Error", errorMessage);
-  //       AppLogger.error("SignUp DioException: ${error.message}");
-  //     }
+        AppSnackBar.error(errorMessage);
+        AppLogger.error(
+          "SignUp DioException [${error.response?.statusCode}]: $errorMessage",
+        );
+      } else {
+        // Network error or other issues
+        errorMessage = "Network error. Please check your connection.";
+        AppSnackBar.error(errorMessage);
+        AppLogger.error("SignUp DioException: ${error.message}");
+      }
 
-  //     return false;
-  //   } catch (e) {
-  //     appInPutUnfocused();
-  //     AppLogger.error(e.toString());
-  //     Get.snackbar("Error", "An unexpected error occurred");
-  //     return false;
-  //   }
-  // }
+      return false;
+    } catch (e) {
+      appInPutUnfocused();
+      AppLogger.error(e.toString());
+      AppSnackBar.error("An unexpected error occurred");
+      return false;
+    }
+  }
 
-  // Future<bool> emailVerify({required String email, required int otp}) async {
-  //   Map<String, dynamic> body = {"email": email, "oneTimeCode": otp};
-  //   try {
-  //     var response = await nonAuthApi.sendRequest.post(
-  //       AppApiEndPoint.instance.verifyEmailOtp,
-  //       data: body,
-  //     );
-  //     if (response.data["success"] == true) {
-  //       String accessToken = response.data["data"];
-  //       storageServices.setToken(accessToken);
-  //       return true;
-  //     } else {
-  //       AppLogger.api("Error: Email Verification Failed!");
-  //     }
+  Future<bool> emailVerify({required String otp}) async {
+    Map<String, String> body = {"otp": otp};
+    try {
+      var response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.verifyEmailOtp,
+        data: body,
+      );
+      if (response.data["success"] == true) {
+        String accessToken = response.data["data"];
+        storageServices.setToken(accessToken);
+        return true;
+      } else {
+        AppLogger.api("Error: Email Verification Failed!");
+      }
 
-  //     return false;
-  //   } catch (e) {
-  //     AppLogger.error(e.toString());
-  //   }
-  //   return false;
-  // }
+      return false;
+    } catch (e) {
+      AppLogger.error(e.toString());
+    }
+    return false;
+  }
 
   // Future<bool> phoneVerify({required String phone, required int otp}) async {
   //   Map<String, dynamic> body = {"phone": phone, "oneTimeCode": otp};
@@ -297,28 +301,28 @@ class AuthRepository {
   //   return false;
   // }
 
-  // Future<bool> resendEmailOtp({required String email}) async {
-  //   Map<String, String> body = {"email": email};
-  //   try {
-  //     final response = await nonAuthApi.sendRequest.post(
-  //       AppApiEndPoint.instance.resendEmailOtp,
-  //       data: body,
-  //     );
-  //     AppLogger.api(response.data.toString(), title: "Resend OTP");
-  //     if (response.data["success"] == true) {
-  //       return true;
-  //     }
-  //   } on DioException catch (error) {
-  //     if (error.response?.data["message"].runtimeType != Null) {
-  //       Get.snackbar("Error", error.response?.data["message"]);
-  //       return false;
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     AppLogger.error(e.toString());
-  //   }
-  //   return false;
-  // }
+  Future<bool> resendEmailOtp({required String email}) async {
+    Map<String, String> body = {"email": email};
+    try {
+      final response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.resendEmailOtp,
+        data: body,
+      );
+      AppLogger.api(response.data.toString());
+      if (response.data["success"] == true) {
+        return true;
+      }
+    } on DioException catch (error) {
+      if (error.response?.data["message"].runtimeType != Null) {
+        AppSnackBar.error(error.response?.data["message"]);
+        return false;
+      }
+      return false;
+    } catch (e) {
+      AppLogger.error(e.toString());
+    }
+    return false;
+  }
 
   // Future<bool> resendPhoneOtp({required String phone}) async {
   //   Map<String, String> body = {"phone": phone};

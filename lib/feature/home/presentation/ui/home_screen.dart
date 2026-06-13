@@ -5,6 +5,7 @@ import 'package:spendlock/core/component/app_image/app_image_circular.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/core/route/app_routes.dart';
+import 'package:spendlock/core/service/api_service/app_api_end_point.dart';
 import 'package:spendlock/feature/home/presentation/controller/home_controller.dart';
 import 'package:spendlock/feature/home/presentation/widget/savings_card.dart';
 import 'package:spendlock/feature/home/presentation/widget/streak_card.dart';
@@ -19,35 +20,38 @@ class HomeScreen extends GetView<HomeController> {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
-            title: Row(
-              spacing: 12.w,
-              children: [
-                AppImageCircular(
-                  url: "https://via.placeholder.com/150",
-                  width: 40.w,
-                  height: 40.w,
-                ),
-                Expanded(
-                  child: Column(
-                    spacing: 4.h,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        data: 'Good Morning!',
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.black,
-                      ),
-                      AppText(
-                        data: "Sarah Leo",
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'inter',
-                      ),
-                    ],
+            title: Obx(
+              () => Row(
+                spacing: 12.w,
+                children: [
+                  AppImageCircular(
+                    url:
+                        "${AppApiEndPoint.domain}${controller.displayImageUrl}",
+                    width: 40.w,
+                    height: 40.w,
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Column(
+                      spacing: 4.h,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          data: 'Good Morning!',
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
+                        AppText(
+                          data: controller.userName.value,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'inter',
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             actions: [
               IconButton(

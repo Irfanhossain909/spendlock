@@ -7,6 +7,7 @@ import 'package:spendlock/core/component/appbar/custom_appbar.dart';
 import 'package:spendlock/core/component/auth_form_card.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/core/route/app_routes.dart';
+import 'package:spendlock/core/service/api_service/app_api_end_point.dart';
 import 'package:spendlock/feature/profile/presentation/controller/personal_details_controller.dart';
 import 'package:spendlock/feature/profile/presentation/controller/profile_controller.dart';
 
@@ -189,7 +190,10 @@ class InfoCard extends GetView<ProfileController> {
           child: Row(
             children: [
               AppImageCircular(
-                url: PersonalDetailsController.defaultAvatarUrl,
+                filePath: null,
+                url: controller.userImage.isNotEmpty
+                    ? "${AppApiEndPoint.domain}${controller.userImage}"
+                    : PersonalDetailsController.defaultAvatarUrl,
                 width: 68.w,
                 height: 68.h,
               ),
