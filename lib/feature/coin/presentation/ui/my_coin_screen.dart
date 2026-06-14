@@ -1,61 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/component/appbar/custom_appbar.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/core/route/app_routes.dart';
-import 'package:spendlock/feature/coin/presentation/model/coin_transaction_item.dart';
+import 'package:spendlock/feature/coin/domain/model/coin_transaction_item.dart';
+import 'package:spendlock/feature/coin/presentation/controller/coin_controller.dart';
 import 'package:spendlock/feature/coin/presentation/widget/coin_balance_card.dart';
 import 'package:spendlock/feature/coin/presentation/widget/coin_transaction_tile.dart';
 
-class MyCoinScreen extends StatelessWidget {
+class MyCoinScreen extends GetView<CoinController> {
   const MyCoinScreen({super.key});
-
-  static const int _balance = 12;
-
-  static const List<CoinTransactionItem> _transactions = [
-    CoinTransactionItem(
-      title: 'Bought coins',
-      subtitle: '15 coins + 2 bonus pack',
-      timestamp: 'Today, 10:30 AM',
-      amount: 17,
-      type: CoinTransactionType.purchase,
-    ),
-    CoinTransactionItem(
-      title: 'Earned coin',
-      subtitle: '7-day streak reward',
-      timestamp: 'Yesterday, 9:15 AM',
-      amount: 1,
-      type: CoinTransactionType.earned,
-    ),
-    CoinTransactionItem(
-      title: 'Unlocked Uber Eats',
-      subtitle: 'Spent 1 coin to unlock',
-      timestamp: 'Mon, 6:42 PM',
-      amount: -1,
-      type: CoinTransactionType.spent,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppbar(text: 'My Coins', centerTitle: false),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 24.h),
-        children: [
-          CoinBalanceCard(
-            balance: _balance,
-            showBuyButton: true,
-            onBuyTap: () => Get.toNamed(AppRoutes.instance.buyCoinScreen),
-          ),
-          SizedBox(height: 20.h),
-          ..._transactions.map(
-            (item) => CoinTransactionTile(item: item),
-          ),
-        ],
-      ),
+      body: Obx(() {
+        final isLoading = controller.isLoading.value;
+        final coins = controller.coins;
+
+        if (isLoading && coins.isEmpty) {
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.primary),
+          );
+        }
+
+        return ListView(
+          controller: controller.scrollController,
+          padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 24.h),
+          children: [
+            Obx(
+              () => CoinBalanceCard(
+                balance: controller.coinBalance.value,
+                showBuyButton: true,
+                onBuyTap: () => Get.toNamed(AppRoutes.instance.buyCoinScreen),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            if (coins.isEmpty)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.h),
+                child: Center(
+                  child: AppText(
+                    data: 'No coin transactions yet',
+                    fontSize: 14.sp,
+                    color: AppColors.gray,
+                    fontFamily: 'inter',
+                  ),
+                ),
+              )
+            else
+              ...coins.map(
+                (coin) => CoinTransactionTile(
+                  item: CoinTransactionItem.fromCoinData(coin),
+                ),
+              ),
+            if (controller.isLoadingMore.value)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 16.h),
+                child: const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                ),
+              ),
+          ],
+        );
+      }),
     );
   }
 }

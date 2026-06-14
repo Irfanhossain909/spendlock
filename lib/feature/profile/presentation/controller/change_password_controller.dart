@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spendlock/feature/profile/domain/repository/profile_repository.dart';
 
 class ChangePasswordController extends GetxController {
   final currentPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool isSaving = false;
+
+  // repository
+  final ProfileRepository profileRepository = ProfileRepository.instance;
 
   @override
   void onClose() {
@@ -50,20 +54,24 @@ class ChangePasswordController extends GetxController {
     isSaving = true;
     update();
 
-    await Future<void>.delayed(const Duration(milliseconds: 600));
-
-    isSaving = false;
-    update();
-
-    currentPasswordController.clear();
-    newPasswordController.clear();
-    confirmPasswordController.clear();
-
-    Get.back();
-    Get.snackbar(
-      'Password updated',
-      'Your password has been changed successfully.',
-      snackPosition: SnackPosition.BOTTOM,
+    final response = await profileRepository.changePassword(
+      oldPassword: current,
+      newPassword: newPass,
+      confirmPassword: confirm,
     );
+    if (response) {
+      Get.back();
+      Get.snackbar(
+        'Password updated',
+        'Your password has been changed successfully.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      Get.snackbar(
+        'Password update failed',
+        'Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }

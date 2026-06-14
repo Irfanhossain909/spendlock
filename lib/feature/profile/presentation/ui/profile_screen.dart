@@ -143,7 +143,11 @@ class ProfileActionCard extends GetView<ProfileController> {
     required Color color,
     required bool isDivider,
   }) {
-    return GestureDetector(
+    return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+
       onTap: onTap,
       child: Column(
         children: [

@@ -109,4 +109,30 @@ class ProfileRepository {
       return false;
     }
   }
+
+  Future<bool> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      final response = await apiServices.apiPostServices(
+        url: AppApiEndPoint.instance.changePassword,
+        body: {
+          "currentPassword": oldPassword,
+          "newPassword": newPassword,
+          "confirmPassword": confirmPassword,
+        },
+      );
+      if (response != null && response is Map) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      AppLogger.error(e.toString());
+    }
+
+    return false;
+  }
 }

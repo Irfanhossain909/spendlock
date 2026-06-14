@@ -19,18 +19,21 @@ class AppApiEndPoint {
   final String verifyEmailOtp = "/auth/verify-email";
   final String resendEmailOtp = "/auth/resend-otp";
   ////in app Url/////////////
-  
-  
+
   //////Profile/////////////
   final String profile = "/user/profile";
-
-  
+  final String changePassword = "/auth/change-password";
+  static String coinList(var page, var limit) =>
+      "/coin-history?page=$page&limit=$limit";
+  static String coinPackageList(var page, var limit) =>
+      "/package?page=$page&limit=$limit";
+  final String addCoin = "/package/create-checkout";
 }
 
 // Move this function outside the class
 String _getDomain() {
-  String liveServer = "http://10.10.26.166:5001";
-  String localServer = "http://10.10.26.166:5001";
+  String liveServer = "http://10.10.26.166:5000";
+  String localServer = "http://10.10.26.166:5000";
   try {
     if (kDebugMode) {
       return localServer;

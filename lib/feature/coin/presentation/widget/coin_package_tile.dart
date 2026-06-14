@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_assets.dart';
 import 'package:spendlock/core/const/app_color.dart';
-import 'package:spendlock/feature/coin/presentation/model/coin_package_item.dart';
+import 'package:spendlock/feature/coin/domain/model/coin_package_item.dart';
 
 class CoinPackageTile extends StatelessWidget {
   const CoinPackageTile({

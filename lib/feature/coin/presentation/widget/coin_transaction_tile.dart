@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_color.dart';
-import 'package:spendlock/feature/coin/presentation/model/coin_transaction_item.dart';
+import 'package:spendlock/feature/coin/domain/model/coin_transaction_item.dart';
 
 class CoinTransactionTile extends StatelessWidget {
   const CoinTransactionTile({super.key, required this.item});
