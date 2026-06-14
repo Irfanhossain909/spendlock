@@ -9,6 +9,7 @@ import 'package:spendlock/core/component/spendlock_branding.dart';
 import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/core/route/app_routes.dart';
 import 'package:spendlock/core/utils/app_snackbar.dart';
+import 'package:spendlock/feature/auth/domain/repository/auth_repository.dart';
 import 'package:spendlock/feature/auth/presentation/controller/verify_email_controller.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -20,27 +21,34 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
+  final _authRepository = AuthRepository.instance;
   bool _loading = false;
 
   Future<void> _submit() async {
-    if (_emailController.text.trim().isEmpty) {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
       AppSnackBar.error('Enter your email');
       return;
     }
     setState(() => _loading = true);
-    await Future<void>.delayed(const Duration(milliseconds: 500));
-    setState(() => _loading = false);
-    AppSnackBar.success('OTP sent to your email');
-    if (Get.isRegistered<VerifyEmailController>()) {
-      Get.delete<VerifyEmailController>(force: true);
+    try {
+      final response = await _authRepository.forgetPassword(email: email);
+      if (response) {
+        AppSnackBar.success('OTP sent to your email');
+        if (Get.isRegistered<VerifyEmailController>()) {
+          Get.delete<VerifyEmailController>(force: true);
+        }
+        Get.toNamed(
+          AppRoutes.instance.verifyEmailScreen,
+          arguments: {
+            'forgotPassword': true,
+            'email': email,
+          },
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
-    Get.toNamed(
-      AppRoutes.instance.verifyEmailScreen,
-      arguments: {
-        'forgotPassword': true,
-        'email': _emailController.text.trim(),
-      },
-    );
   }
 
   @override

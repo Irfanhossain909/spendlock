@@ -18,6 +18,8 @@ class AppApiEndPoint {
   final String signUp = "/user";
   final String verifyEmailOtp = "/auth/verify-email";
   final String resendEmailOtp = "/auth/resend-otp";
+  final String forgetPass = "/auth/forget-password";
+  final String resetPass = "/auth/reset-password";
   ////in app Url/////////////
 
   //////Profile/////////////
@@ -28,12 +30,17 @@ class AppApiEndPoint {
   static String coinPackageList(var page, var limit) =>
       "/package?page=$page&limit=$limit";
   final String addCoin = "/package/create-checkout";
+
+  static String motivationList(var page, var limit) =>
+      "/motivation?page=$page&limit=$limit";
+  static String triggerList(var page, var limit) =>
+      "/trigger?page=$page&limit=$limit";
 }
 
 // Move this function outside the class
 String _getDomain() {
-  String liveServer = "http://10.10.26.166:5000";
-  String localServer = "http://10.10.26.166:5000";
+  String liveServer = "http://10.10.26.166:5001";
+  String localServer = "http://10.10.26.166:5001";
   try {
     if (kDebugMode) {
       return localServer;

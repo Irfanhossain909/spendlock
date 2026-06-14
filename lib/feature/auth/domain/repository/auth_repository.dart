@@ -253,28 +253,29 @@ class AuthRepository {
   //   return false;
   // }
 
-  // Future<bool> forgetPassword({required String email}) async {
-  //   try {
-  //     final response = await nonAuthApi.sendRequest.post(
-  //       AppApiEndPoint.instance.forgotPassword,
-  //       data: {"email": email},
-  //     );
-  //     if (response.data["success"] == true) {
-  //       return true;
-  //     } else {
-  //       return false;
-  //     }
-  //   } on DioException catch (error) {
-  //     if (error.response?.data["message"].runtimeType != Null) {
-  //       Get.snackbar("Error", error.response?.data["message"]);
-  //       return false;
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     AppLogger.error(e.toString());
-  //   }
-  //   return false;
-  // }
+  Future<bool> forgetPassword({required String email}) async {
+    try {
+      appInPutUnfocused();
+      final response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.forgetPass,
+        data: {"email": email},
+      );
+      if (response.data["success"] == true) {
+        return true;
+      }
+      return false;
+    } on DioException catch (error) {
+      if (error.response?.data["message"].runtimeType != Null) {
+        AppSnackBar.error(
+          error.response?.data["message"] ?? "Something went wrong",
+        );
+      }
+      return false;
+    } catch (e) {
+      AppLogger.error(e.toString());
+    }
+    return false;
+  }
 
   // Future<dynamic> forgetOtpVerify({
   //   required String phone,
@@ -383,41 +384,37 @@ class AuthRepository {
   //   return false;
   // }
 
-  // Future<bool> resetPassword({
-  //   required String newPassword,
-  //   required String confirmPassword,
-  //   required String resetToken,
-  // }) async {
-  //   try {
-  //     appInPutUnfocused();
-  //     Map body = {
-  //       "newPassword": newPassword,
-  //       "confirmPassword": confirmPassword,
-  //     };
-  //     var response = await nonAuthApi.sendRequest.post(
-  //       AppApiEndPoint.instance.resetPassword,
-  //       data: body,
-  //       options: Options(
-  //         receiveTimeout: const Duration(minutes: 2),
-  //         sendTimeout: const Duration(minutes: 2),
-  //         headers: {"Accept": "application/json", "Authorization": resetToken},
-  //       ),
-  //     );
+  Future<bool> resetPassword({
+    required String otp,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      appInPutUnfocused();
+      final body = {
+        "otp": otp,
+        "newPassword": newPassword,
+        "confirmPassword": confirmPassword,
+      };
+      final response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.resetPass,
+        data: body,
+      );
 
-  //     if (response.data["success"] == true) {
-  //       AppLogger.api("confirm password repository response :: $response");
-  //       return true;
-  //     }
-  //     return false;
-  //   } on DioException catch (error) {
-  //     if (error.response?.data["message"].runtimeType != Null) {
-  //       Get.snackbar("Error", error.response?.data["message"]);
-  //       return false;
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     AppLogger.error(e.toString());
-  //     return false;
-  //   }
-  // }
+      if (response.data["success"] == true) {
+        return true;
+      }
+      return false;
+    } on DioException catch (error) {
+      if (error.response?.data["message"].runtimeType != Null) {
+        AppSnackBar.error(
+          error.response?.data["message"] ?? "Something went wrong",
+        );
+      }
+      return false;
+    } catch (e) {
+      AppLogger.error(e.toString());
+    }
+    return false;
+  }
 }

@@ -7,15 +7,15 @@ import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/component/setup_progress_header.dart';
 import 'package:spendlock/core/const/app_assets.dart';
 import 'package:spendlock/core/const/app_color.dart';
-import 'package:spendlock/core/route/app_routes.dart';
+import 'package:spendlock/feature/setup/presentation/controller/setup_controller.dart';
 
-class ConnectBankScreen extends StatelessWidget {
+class ConnectBankScreen extends GetView<SetupController> {
   const ConnectBankScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SetupProgressHeader(currentStep: 4, totalSteps: 5),
+      appBar: const SetupProgressHeader(currentStep: 5, totalSteps: 5),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: SafeArea(
@@ -44,9 +44,17 @@ class ConnectBankScreen extends StatelessWidget {
                 maxLines: 4,
               ),
               const Spacer(),
-              AppButton(
-                title: 'Connect Bank',
-                onTap: () => Get.toNamed(AppRoutes.instance.budgetScreen),
+              GetBuilder<SetupController>(
+                builder: (controller) {
+                  return AppButton(
+                    title: controller.isSubmitting
+                        ? 'Finishing...'
+                        : 'Finish Setup',
+                    onTap: controller.isSubmitting
+                        ? null
+                        : controller.completeSetup,
+                  );
+                },
               ),
               SizedBox(height: 12.h),
               // AppButton(

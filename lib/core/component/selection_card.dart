@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spendlock/core/component/app_image/app_image_circular.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_color.dart';
 
@@ -8,7 +9,8 @@ class SelectionCard extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
-    required this.icon,
+    this.icon,
+    this.imageUrl,
     required this.isSelected,
     required this.onTap,
     this.iconColor,
@@ -17,7 +19,8 @@ class SelectionCard extends StatelessWidget {
 
   final String title;
   final String? subtitle;
-  final IconData icon;
+  final IconData? icon;
+  final String? imageUrl;
   final bool isSelected;
   final VoidCallback onTap;
   final Color? iconColor;
@@ -46,7 +49,19 @@ class SelectionCard extends StatelessWidget {
                 color: iconBgColor ?? AppColors.primarySurface,
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              child: Icon(icon, size: 20.sp, color: iconColor ?? AppColors.primary),
+              clipBehavior: Clip.antiAlias,
+              child: imageUrl != null && imageUrl!.isNotEmpty
+                  ? AppImageCircular(
+                      url: imageUrl,
+                      width: 40.w,
+                      height: 40.w,
+                      borderRadius: 8.r,
+                    )
+                  : Icon(
+                      icon ?? Icons.circle_outlined,
+                      size: 20.sp,
+                      color: iconColor ?? AppColors.primary,
+                    ),
             ),
             SizedBox(width: 16.w),
             Expanded(

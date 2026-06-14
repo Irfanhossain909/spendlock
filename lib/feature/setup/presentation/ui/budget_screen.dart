@@ -13,99 +13,55 @@ class BudgetScreen extends GetView<SetupController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const SetupProgressHeader(currentStep: 5, totalSteps: 5),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 16.h),
-            AppText(
-              data: 'Set your monthly budget',
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w700,
-            ),
-            SizedBox(height: 8.h),
-            AppText(
-              data:
-                  "Define how much you'd like to spend each month to reach your goals faster.",
-              fontSize: 14.sp,
-              color: AppColors.gray,
-              maxLines: 3,
-            ),
-            SizedBox(height: 32.h),
-            MonthlyLimitCard(
-              initialValue: 2000,
-              min: 500,
-              max: 5000,
-
-              options: const [
-                BudgetOption(title: '\$1k', value: 1000),
-                BudgetOption(title: '\$2k', value: 2000),
-                BudgetOption(title: '\$3k', value: 3000),
-                BudgetOption(title: '\$5k', value: 5000),
+    return GetBuilder<SetupController>(
+      builder: (controller) {
+        return Scaffold(
+          appBar: const SetupProgressHeader(currentStep: 3, totalSteps: 5),
+          body: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 16.h),
+                AppText(
+                  data: 'Set your monthly budget',
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+                SizedBox(height: 8.h),
+                AppText(
+                  data:
+                      "Define how much you'd like to spend each month to reach your goals faster.",
+                  fontSize: 14.sp,
+                  color: AppColors.gray,
+                  maxLines: 3,
+                ),
+                SizedBox(height: 32.h),
+                MonthlyLimitCard(
+                  key: ValueKey(controller.monthlyBudget),
+                  initialValue: controller.monthlyBudget,
+                  min: 500,
+                  max: 5000,
+                  options: const [
+                    BudgetOption(title: '\$1k', value: 1000),
+                    BudgetOption(title: '\$2k', value: 2000),
+                    BudgetOption(title: '\$3k', value: 3000),
+                    BudgetOption(title: '\$5k', value: 5000),
+                  ],
+                  onChanged: controller.setBudget,
+                ),
+                const Spacer(),
+                AppButton(
+                  title: controller.isSaving ? 'Saving...' : 'Continue',
+                  showArrow: !controller.isSaving,
+                  onTap: controller.isSaving ? null : controller.saveBudget,
+                ),
+                SizedBox(height: 24.h),
               ],
-
-              onChanged: (value) {
-                print(value);
-              },
             ),
-            // Container(
-            //   width: double.infinity,
-            //   padding: EdgeInsets.all(32.w),
-            //   decoration: BoxDecoration(
-            //     gradient: AppColors.primaryGradient,
-            //     borderRadius: BorderRadius.circular(20.r),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: AppColors.primary.withValues(alpha: 0.25),
-            //         blurRadius: 24,
-            //         offset: const Offset(0, 8),
-            //       ),
-            //     ],
-            //   ),
-            //   child: Obx(
-            //     () => Column(
-            //       children: [
-            //         AppText(
-            //           data: 'Monthly Limit',
-            //           fontSize: 14.sp,
-            //           color: AppColors.white.withValues(alpha: 0.9),
-            //           fontFamily: 'inter',
-            //         ),
-            //         SizedBox(height: 8.h),
-            //         AppText(
-            //           data: '\$${controller.monthlyBudget.value.toInt()}',
-            //           fontSize: 48.sp,
-            //           fontWeight: FontWeight.w800,
-            //           color: AppColors.white,
-            //           fontFamily: 'inter',
-            //         ),
-            //         SizedBox(height: 24.h),
-            //         Slider(
-            //           value: controller.monthlyBudget.value,
-            //           min: 500,
-            //           max: 5000,
-            //           divisions: 18,
-            //           activeColor: AppColors.white,
-            //           inactiveColor: AppColors.white.withValues(alpha: 0.3),
-            //           onChanged: controller.setBudget,
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            const Spacer(),
-            AppButton(
-              title: 'Finish Setup',
-              showArrow: true,
-              onTap: controller.completeSetup,
-            ),
-            SizedBox(height: 24.h),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

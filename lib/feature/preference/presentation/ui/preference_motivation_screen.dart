@@ -5,7 +5,6 @@ import 'package:spendlock/core/component/app_button/app_button.dart';
 import 'package:spendlock/core/component/appbar/custom_appbar.dart';
 import 'package:spendlock/core/component/selection_card.dart';
 import 'package:spendlock/core/const/app_color.dart';
-import 'package:spendlock/core/const/preference_options.dart';
 import 'package:spendlock/feature/preference/presentation/controller/preference_controller.dart';
 
 class PreferenceMotivationScreen extends GetView<PreferenceController> {
@@ -27,27 +26,46 @@ class PreferenceMotivationScreen extends GetView<PreferenceController> {
               children: [
                 SizedBox(height: 16.h),
                 Expanded(
-                  child: ListView.separated(
-                    itemCount: PreferenceOptions.goals.length,
-                    separatorBuilder: (_, __) => SizedBox(height: 12.h),
-                    itemBuilder: (_, i) {
-                      final goal = PreferenceOptions.goals[i];
-                      return SelectionCard(
-                        title: goal.$2,
-                        icon: goal.$1,
-                        iconColor: goal.$3,
-                        iconBgColor: goal.$3.withValues(alpha: 0.1),
-                        isSelected: controller.selectedGoal == i,
-                        onTap: () => controller.selectGoal(i),
-                      );
-                    },
-                  ),
+                  child: controller.isLoadingMotivation
+                      ? const Center(child: CircularProgressIndicator())
+                      : controller.motivationList.isEmpty
+                          ? Center(
+                              child: Text(
+                                'No motivation options found.',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.gray,
+                                ),
+                              ),
+                            )
+                          : ListView.separated(
+                              itemCount: controller.motivationList.length,
+                              separatorBuilder: (_, __) =>
+                                  SizedBox(height: 12.h),
+                              itemBuilder: (_, index) {
+                                final item = controller.motivationList[index];
+                                final id = item.id;
+                                if (id == null) return const SizedBox.shrink();
+
+                                return SelectionCard(
+                                  title: item.title ?? '',
+                                  imageUrl: item.image,
+                                  icon: Icons.track_changes_outlined,
+                                  iconColor: Colors.amber.shade700,
+                                  iconBgColor:
+                                      Colors.amber.shade700.withValues(alpha: 0.1),
+                                  isSelected:
+                                      controller.selectedMotivationId == id,
+                                  onTap: () => controller.selectMotivation(id),
+                                );
+                              },
+                            ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 24.h, top: 12.h),
                   child: AppButton(
-                    title: 'Save',
-                    onTap: controller.saveMotivation,
+                    title: controller.isSaving ? 'Saving...' : 'Save',
+                    onTap: controller.isSaving ? null : controller.saveMotivation,
                   ),
                 ),
               ],

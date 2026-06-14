@@ -5,7 +5,6 @@ import 'package:spendlock/core/component/app_button/app_button.dart';
 import 'package:spendlock/core/component/appbar/custom_appbar.dart';
 import 'package:spendlock/core/component/selection_card.dart';
 import 'package:spendlock/core/const/app_color.dart';
-import 'package:spendlock/core/const/preference_options.dart';
 import 'package:spendlock/feature/preference/presentation/controller/preference_controller.dart';
 
 class PreferenceTriggersScreen extends GetView<PreferenceController> {
@@ -15,8 +14,6 @@ class PreferenceTriggersScreen extends GetView<PreferenceController> {
   Widget build(BuildContext context) {
     return GetBuilder<PreferenceController>(
       builder: (controller) {
-        final selected = Set<int>.from(controller.selectedChallenges);
-
         return Scaffold(
           backgroundColor: AppColors.background,
           appBar: const CustomAppbar(
@@ -29,27 +26,45 @@ class PreferenceTriggersScreen extends GetView<PreferenceController> {
               children: [
                 SizedBox(height: 16.h),
                 Expanded(
-                  child: ListView.separated(
-                    itemCount: PreferenceOptions.triggers.length,
-                    separatorBuilder: (_, __) => SizedBox(height: 12.h),
-                    itemBuilder: (_, i) {
-                      final item = PreferenceOptions.triggers[i];
-                      return SelectionCard(
-                        title: item.$2,
-                        icon: item.$1,
-                        iconColor: item.$3,
-                        iconBgColor: item.$3.withValues(alpha: 0.1),
-                        isSelected: selected.contains(i),
-                        onTap: () => controller.toggleChallenge(i),
-                      );
-                    },
-                  ),
+                  child: controller.isLoadingTrigger
+                      ? const Center(child: CircularProgressIndicator())
+                      : controller.triggerList.isEmpty
+                          ? Center(
+                              child: Text(
+                                'No trigger options found.',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.gray,
+                                ),
+                              ),
+                            )
+                          : ListView.separated(
+                              itemCount: controller.triggerList.length,
+                              separatorBuilder: (_, __) =>
+                                  SizedBox(height: 12.h),
+                              itemBuilder: (_, index) {
+                                final item = controller.triggerList[index];
+                                final id = item.id;
+                                if (id == null) return const SizedBox.shrink();
+
+                                return SelectionCard(
+                                  title: item.title ?? '',
+                                  imageUrl: item.image,
+                                  icon: Icons.bolt_outlined,
+                                  iconColor: Colors.pinkAccent,
+                                  iconBgColor:
+                                      Colors.pinkAccent.withValues(alpha: 0.1),
+                                  isSelected: controller.selectedTriggerId == id,
+                                  onTap: () => controller.selectTrigger(id),
+                                );
+                              },
+                            ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 24.h, top: 12.h),
                   child: AppButton(
-                    title: 'Save',
-                    onTap: controller.saveTriggers,
+                    title: controller.isSaving ? 'Saving...' : 'Save',
+                    onTap: controller.isSaving ? null : controller.saveTriggers,
                   ),
                 ),
               ],

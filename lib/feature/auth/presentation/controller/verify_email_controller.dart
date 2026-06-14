@@ -66,7 +66,9 @@ class VerifyEmailController extends GetxController {
 
     isLoading.value = true;
     try {
-      final response = await authRepository.resendEmailOtp(email: email);
+      final response = isForgotPasswordFlow
+          ? await authRepository.forgetPassword(email: email)
+          : await authRepository.resendEmailOtp(email: email);
       if (response) {
         AppSnackBar.success('OTP sent to your email');
         _startTimer();
@@ -88,7 +90,10 @@ class VerifyEmailController extends GetxController {
     isLoading.value = true;
     try {
       if (isForgotPasswordFlow) {
-        Get.toNamed(AppRoutes.instance.resetPasswordScreen);
+        Get.toNamed(
+          AppRoutes.instance.resetPasswordScreen,
+          arguments: {'otp': otp},
+        );
         return;
       }
 

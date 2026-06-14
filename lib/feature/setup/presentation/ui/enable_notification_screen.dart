@@ -17,7 +17,7 @@ class EnableNotificationScreen extends GetView<SetupController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SetupProgressHeader(currentStep: 3, totalSteps: 5),
+      appBar: const SetupProgressHeader(currentStep: 4, totalSteps: 5),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: SafeArea(

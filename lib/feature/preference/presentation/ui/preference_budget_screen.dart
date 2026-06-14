@@ -40,8 +40,8 @@ class PreferenceBudgetScreen extends GetView<PreferenceController> {
                 ),
                 const Spacer(),
                 AppButton(
-                  title: 'Save',
-                  onTap: controller.saveBudget,
+                  title: controller.isSaving ? 'Saving...' : 'Save',
+                  onTap: controller.isSaving ? null : controller.saveBudget,
                 ),
                 SizedBox(height: 24.h),
               ],
