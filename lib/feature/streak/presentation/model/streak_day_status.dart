@@ -1,14 +1,8 @@
 /// Calendar cell styling for a day in the streak month grid.
 enum StreakDayStatus {
-  /// Completed successfully (teal cell).
-  success,
+  /// Active streak day (green cell).
+  progress,
 
-  /// Streak broken (red cell).
-  broken,
-
-  /// Coin was used (orange cell).
-  coinUsed,
-
-  /// In list but neutral / no streak mark (plain emphasis).
-  neutral,
+  /// Streak broken day (orange cell).
+  break_,
 }

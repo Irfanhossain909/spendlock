@@ -176,8 +176,7 @@ class StreakMonthCalendar extends StatelessWidget {
               _LegendRow(
                 items: [
                   _LegendDot(color: AppColors.primary, label: 'Success'),
-                  _LegendDot(color: const Color(0xFFFF6B81), label: 'Broken'),
-                  _LegendDot(color: const Color(0xFFFF8A3D), label: 'Coin Used'),
+                  _LegendDot(color: AppColors.coinUsedOrange, label: 'Coin Used'),
                 ],
               ),
             ],

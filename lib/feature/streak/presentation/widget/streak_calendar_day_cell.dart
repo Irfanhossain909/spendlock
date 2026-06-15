@@ -68,13 +68,9 @@ class StreakCalendarDayCell extends StatelessWidget {
     }
     if (isToday) return AppColors.primary;
     switch (status) {
-      case StreakDayStatus.success:
-      case StreakDayStatus.coinUsed:
+      case StreakDayStatus.progress:
+      case StreakDayStatus.break_:
         return AppColors.white;
-      case StreakDayStatus.broken:
-        return const Color(0xFF8B1538);
-      case StreakDayStatus.neutral:
-        return AppColors.gray;
       case null:
         return AppColors.lightGray;
     }
@@ -92,24 +88,14 @@ class StreakCalendarDayCell extends StatelessWidget {
       );
     }
     switch (status) {
-      case StreakDayStatus.success:
+      case StreakDayStatus.progress:
         return BoxDecoration(
           color: AppColors.primary,
           borderRadius: BorderRadius.circular(8.r),
         );
-      case StreakDayStatus.broken:
+      case StreakDayStatus.break_:
         return BoxDecoration(
-          color: const Color(0xFFFFE4E8),
-          borderRadius: BorderRadius.circular(8.r),
-        );
-      case StreakDayStatus.coinUsed:
-        return BoxDecoration(
-          color: const Color(0xFFFF8A3D),
-          borderRadius: BorderRadius.circular(8.r),
-        );
-      case StreakDayStatus.neutral:
-        return BoxDecoration(
-          color: AppColors.primarySurface,
+          color: AppColors.coinUsedOrange,
           borderRadius: BorderRadius.circular(8.r),
         );
       case null:

@@ -21,7 +21,7 @@ class AppApiEndPoint {
   final String forgetPass = "/auth/forget-password";
   final String resetPass = "/auth/reset-password";
   ////in app Url/////////////
-
+  final String streak = "/calendar/streak";
   //////Profile/////////////
   final String profile = "/user/profile";
   final String changePassword = "/auth/change-password";
