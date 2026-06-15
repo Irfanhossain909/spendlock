@@ -13,33 +13,29 @@ class TreeScreen extends GetView<TreeController> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TreeController>(
-      builder: (controller) {
-        return Scaffold(
-          backgroundColor: AppColors.background,
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Obx(
-                () => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 12.h),
-                    const TreeScreenHeader(title: 'Rules'),
-                    SizedBox(height: 8.h),
-                    const TreeHero(),
-                    SizedBox(height: 16.h),
-                    TreeStatsCard(stats: controller.userStats.value),
-                    SizedBox(height: 24.h),
-                    GrowthJourneySection(stages: controller.growthStages),
-                    SizedBox(height: 100.h),
-                  ],
-                ),
-              ),
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 12.h),
+                const TreeScreenHeader(title: 'Rules'),
+                SizedBox(height: 8.h),
+                TreeHero(totalCoins: 10),
+                SizedBox(height: 16.h),
+                TreeStatsCard(stats: controller.overview.value),
+                SizedBox(height: 24.h),
+                GrowthJourneySection(stages: controller.growthStages),
+                SizedBox(height: 100.h),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

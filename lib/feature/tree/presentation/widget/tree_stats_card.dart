@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_color.dart';
-import 'package:spendlock/feature/tree/presentation/model/user_tree_stats.dart';
+import 'package:spendlock/feature/tree/presentation/model/overview_model.dart';
 import 'package:spendlock/feature/tree/presentation/widget/savings_stat_box.dart';
 import 'package:spendlock/feature/tree/presentation/widget/segmented_progress_bar.dart';
 
 class TreeStatsCard extends StatelessWidget {
-  const TreeStatsCard({super.key, required this.stats});
+  const TreeStatsCard({super.key, this.stats});
 
-  final UserTreeStats stats;
+  final OverViewModel? stats;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class TreeStatsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               AppText(
-                data: '${stats.currentStreakDays}',
+                data: '${stats?.data?.currentStreak ?? 0}',
                 fontSize: 36.sp,
                 fontWeight: FontWeight.w700,
                 fontFamily: 'hanken',
@@ -74,7 +74,9 @@ class TreeStatsCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
               AppText(
-                data: '${stats.weeklyGoalProgress}/${stats.weeklyGoalTotal} Days',
+                data: '${getRemaining(stats?.data?.currentStreak ?? 0)}/5 Days',
+                // data:
+                //     '${stats.weeklyGoalProgress}/${stats.weeklyGoalTotal} Days',
                 fontSize: 11.sp,
                 color: AppColors.lightGray,
                 fontFamily: 'inter',
@@ -84,19 +86,19 @@ class TreeStatsCard extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           SegmentedProgressBar(
-            totalSegments: stats.weeklyGoalTotal,
-            completedSegments: stats.weeklyGoalProgress,
+            totalSegments: 5,
+            completedSegments: getRemaining(stats?.data?.currentStreak ?? 0),
           ),
           SizedBox(height: 16.h),
           Row(
             children: [
               SavingsStatBox(
-                amount: stats.monthlySaved,
+                amount: stats?.data?.saveBalancePerMonth?.toDouble() ?? 0,
                 label: 'saved this month',
               ),
               SizedBox(width: 12.w),
               SavingsStatBox(
-                amount: stats.totalSaved,
+                amount: stats?.data?.saveBalancePerMonth?.toDouble() ?? 0,
                 label: 'total saved',
               ),
             ],
@@ -105,4 +107,8 @@ class TreeStatsCard extends StatelessWidget {
       ),
     );
   }
+}
+
+int getRemaining(int? value) {
+  return (value ?? 0) % 5;
 }
