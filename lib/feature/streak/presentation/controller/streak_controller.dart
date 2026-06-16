@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:spendlock/feature/profile/presentation/controller/profile_controller.dart';
 import 'package:spendlock/feature/streak/domain/repository/streak_repository.dart';
 import 'package:spendlock/feature/streak/presentation/model/streak_calendar_day_tap.dart';
 import 'package:spendlock/feature/streak/presentation/model/streak_day_status.dart';
@@ -20,6 +21,19 @@ class StreakController extends GetxController {
   void onInit() {
     super.onInit();
     loadMonthDayRecords();
+    if (Get.isRegistered<ProfileController>()) {
+      ever(Get.find<ProfileController>().profile, (_) => loadPersonalDetails());
+    }
+  }
+
+  void loadPersonalDetails() {
+    if (Get.isRegistered<ProfileController>()) {
+      final profileData = Get.find<ProfileController>().profile.value?.data;
+      if (profileData != null) {
+        coinBalance.value = profileData.coinBalance ?? 0;
+        return;
+      }
+    }
   }
 
   Future<void> loadMonthDayRecords() async {
@@ -72,7 +86,8 @@ class StreakController extends GetxController {
     StreakDayStatus? existing,
     StreakDayStatus incoming,
   ) {
-    if (existing == StreakDayStatus.break_ || incoming == StreakDayStatus.break_) {
+    if (existing == StreakDayStatus.break_ ||
+        incoming == StreakDayStatus.break_) {
       return StreakDayStatus.break_;
     }
     return incoming;

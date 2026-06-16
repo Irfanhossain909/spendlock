@@ -18,6 +18,7 @@ class RuleModel {
     required this.createdAtMillis,
     this.timezoneName,
     this.timezoneOffsetMinutes,
+    this.serverId,
   });
 
   final String id;
@@ -34,6 +35,12 @@ class RuleModel {
   final int createdAtMillis;
   final String? timezoneName;
   final int? timezoneOffsetMinutes;
+
+  /// Backend `_id` — null until the rule is synced via API.
+  final String? serverId;
+
+  bool get isSyncedToServer =>
+      serverId != null && serverId!.isNotEmpty;
 
   RuleType get ruleType => RuleTypeStorage.fromStorageIndex(type);
 
@@ -72,6 +79,7 @@ class RuleModel {
       timezoneName: json['timezoneName']?.toString(),
       timezoneOffsetMinutes:
           (json['timezoneOffsetMinutes'] as num?)?.toInt(),
+      serverId: json['serverId']?.toString(),
     );
   }
 
@@ -91,6 +99,7 @@ class RuleModel {
       'createdAtMillis': createdAtMillis,
       'timezoneName': timezoneName,
       'timezoneOffsetMinutes': timezoneOffsetMinutes,
+      'serverId': serverId,
     };
   }
 
@@ -122,6 +131,7 @@ class RuleModel {
     int? createdAtMillis,
     String? timezoneName,
     int? timezoneOffsetMinutes,
+    String? serverId,
   }) {
     return RuleModel(
       id: id ?? this.id,
@@ -141,6 +151,7 @@ class RuleModel {
       timezoneName: timezoneName ?? this.timezoneName,
       timezoneOffsetMinutes:
           timezoneOffsetMinutes ?? this.timezoneOffsetMinutes,
+      serverId: serverId ?? this.serverId,
     );
   }
 

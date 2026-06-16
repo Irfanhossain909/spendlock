@@ -23,6 +23,7 @@ class AppApiEndPoint {
   ////in app Url/////////////
   final String streak = "/calendar/streak";
   final String overview = "/user/overview";
+  final String rules = "/rule";
   //////Profile/////////////
   final String profile = "/user/profile";
   final String changePassword = "/auth/change-password";

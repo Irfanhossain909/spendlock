@@ -6,9 +6,14 @@ import 'package:spendlock/feature/tree/presentation/model/growth_stage.dart';
 import 'package:spendlock/feature/tree/presentation/widget/growth_journey_card.dart';
 
 class GrowthJourneySection extends StatelessWidget {
-  const GrowthJourneySection({super.key, required this.stages});
+  const GrowthJourneySection({
+    super.key,
+    required this.stages,
+    required this.activeIndex,
+  });
 
   final List<GrowthStage> stages;
+  final int activeIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +33,56 @@ class GrowthJourneySection extends StatelessWidget {
           height: 120.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) =>
-                GrowthJourneyCard(stage: stages[index]),
             itemCount: stages.length,
+            itemBuilder: (context, index) {
+              return GrowthJourneyCard(
+                stage: stages[index],
+                isActive: index == activeIndex,
+              );
+            },
           ),
         ),
-        // SingleChildScrollView(
-        //   scrollDirection: Axis.horizontal,
-        //   child: Row(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       for (var i = 0; i < stages.length; i++) ...[
-        //         if (i > 0) SizedBox(width: 10.w),
-        //         GrowthJourneyCard(stage: stages[i]),
-        //       ],
-        //     ],
-        //   ),
-        // ),
       ],
     );
   }
 }
+
+// class GrowthJourneySection extends StatelessWidget {
+//   const GrowthJourneySection({
+//     super.key,
+//     required this.stages,
+//     required this.isActive,
+//   });
+
+//   final List<GrowthStage> stages;
+//   final bool isActive;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         AppText(
+//           data: 'GROWTH JOURNEY',
+//           fontSize: 12.sp,
+//           color: AppColors.gray,
+//           fontWeight: FontWeight.w600,
+//           letterSpacing: 0.7,
+//           fontFamily: 'hanken',
+//         ),
+//         SizedBox(height: 12.h),
+//         SizedBox(
+//           height: 120.h,
+//           child: ListView.builder(
+//             scrollDirection: Axis.horizontal,
+//             shrinkWrap: true,
+//             physics: const NeverScrollableScrollPhysics(),
+//             itemBuilder: (context, index) =>
+//                 GrowthJourneyCard(stage: stages[index], isActive: isActive),
+//             itemCount: stages.length,
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

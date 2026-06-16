@@ -6,13 +6,12 @@ import 'package:spendlock/core/const/app_color.dart';
 import 'package:spendlock/feature/tree/presentation/model/growth_stage.dart';
 
 class GrowthJourneyCard extends StatelessWidget {
-  const GrowthJourneyCard({super.key, required this.stage});
+  const GrowthJourneyCard({super.key, required this.stage, required this.isActive});
 
   final GrowthStage stage;
-
+  final bool isActive;
   @override
   Widget build(BuildContext context) {
-    bool isActive = stage.isActive;
     return Stack(
       children: [
         Padding(

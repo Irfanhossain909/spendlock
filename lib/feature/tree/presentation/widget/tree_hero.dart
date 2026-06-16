@@ -36,28 +36,30 @@ class TreeHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final visibleCoins = coinSlots.take(totalCoins.clamp(0, coinSlots.length));
 
-    return SizedBox(
-      width: 220.w,
-      height: 220.h,
-      child: Stack(
-        children: [
-          /// Tree Image
-          Positioned.fill(
-            child: SvgPicture.asset(
-              AppAssets.moneyTree, // <-- change your asset path
-              fit: BoxFit.contain,
+    return Center(
+      child: SizedBox(
+        width: 220.w,
+        height: 220.h,
+        child: Stack(
+          children: [
+            /// Tree Image
+            Positioned.fill(
+              child: SvgPicture.asset(
+                AppAssets.moneyTree, // <-- change your asset path
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
 
-          /// Coins
-          ...visibleCoins.map(
-            (offset) => Positioned(
-              left: offset.dx.w,
-              top: offset.dy.h,
-              child: const _CoinWidget(),
+            /// Coins
+            ...visibleCoins.map(
+              (offset) => Positioned(
+                left: offset.dx.w,
+                top: offset.dy.h,
+                child: const _CoinWidget(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

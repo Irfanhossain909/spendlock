@@ -45,6 +45,7 @@ class RulesController extends GetxController {
   Future<void> loadRules() async {
     try {
       isLoading.value = true;
+      await _repository.syncWithBackend();
       final models = _repository.getAllRules();
       final items = models.map(RuleItemMapper.fromModel).toList();
       rules.value = items;

@@ -25,11 +25,14 @@ class TreeScreen extends GetView<TreeController> {
                 SizedBox(height: 12.h),
                 const TreeScreenHeader(title: 'Rules'),
                 SizedBox(height: 8.h),
-                TreeHero(totalCoins: 10),
+                TreeHero(totalCoins: controller.totalCoins.value),
                 SizedBox(height: 16.h),
                 TreeStatsCard(stats: controller.overview.value),
                 SizedBox(height: 24.h),
-                GrowthJourneySection(stages: controller.growthStages),
+                GrowthJourneySection(
+                  stages: controller.growthStages,
+                  activeIndex: getGrowthStageIndex(controller.totalCoins.value),
+                ),
                 SizedBox(height: 100.h),
               ],
             ),
@@ -37,5 +40,21 @@ class TreeScreen extends GetView<TreeController> {
         ),
       ),
     );
+  }
+}
+
+int getGrowthStageIndex(int? value) {
+  if (value == null || value <= 0) {
+    return 0;
+  }
+
+  if (value >= 1 && value <= 7) {
+    return 0;
+  } else if (value >= 8 && value <= 16) {
+    return 1;
+  } else if (value >= 17 && value <= 32) {
+    return 2;
+  } else {
+    return 3;
   }
 }

@@ -25,6 +25,7 @@ class TreeController extends GetxController {
       final response = await treeRepository.getOverview();
       if (response != null) {
         overview.value = response;
+        totalCoins.value = response.data?.availableCoins ?? 0;
       } else {
         AppSnackBar.error('Failed to load overview');
       }
