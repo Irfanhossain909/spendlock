@@ -1,16 +1,26 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spendlock/core/service/api_service/get_storage_services.dart';
+import 'package:spendlock/core/utils/app_logger.dart';
 import 'package:spendlock/feature/profile/presentation/controller/personal_details_controller.dart';
 import 'package:spendlock/feature/profile/presentation/controller/profile_controller.dart';
+import 'package:spendlock/feature/rules/domain/mapper/rule_item_mapper.dart';
+import 'package:spendlock/feature/rules/domain/repository/rules_repository.dart';
+import 'package:spendlock/feature/rules/presentation/controller/rules_controller.dart';
+import 'package:spendlock/feature/rules/presentation/model/rule_item.dart';
+import 'package:spendlock/feature/tree/domain/repository/tree_repository.dart';
 
 class HomeController extends GetxController {
+  final _treeRepository = TreeRepository.instance;
+  final _rulesRepository = RulesRepository.instance;
+
   final userName = ''.obs;
   final profileImageUrl = RxnString();
-  final streakDays = 12.obs;
-  final weeklyProgress = 5.obs;
-  final totalSavings = 2450.0.obs;
-  final coins = 12.obs;
+  final streakDays = 0.obs;
+  final weeklyProgress = 0.obs;
+  final totalSavings = 0.0.obs;
+  final coins = 0.obs;
+  final isLoading = false.obs;
+  final activeRules = <RuleItem>[].obs;
 
   String get displayImageUrl {
     final image = profileImageUrl.value;
@@ -20,29 +30,52 @@ class HomeController extends GetxController {
     return PersonalDetailsController.defaultAvatarUrl;
   }
 
-  final activeRules = <ActiveRule>[
-    ActiveRule(
-      title: 'No food delivery after 9 PM',
-      subtitle: '02:14h left',
-      icon: Icons.access_time,
-      iconBg: 0xFFE0F5F2,
-    ),
-    ActiveRule(
-      title: 'Weekly Dining',
-      subtitle: 'Max \$200',
-      icon: Icons.attach_money,
-      iconBg: 0xFFFFF4D6,
-    ),
-  ].obs;
-
   @override
   void onInit() {
     super.onInit();
     loadPersonalDetails();
+    refreshData();
 
     if (Get.isRegistered<ProfileController>()) {
       ever(Get.find<ProfileController>().profile, (_) => loadPersonalDetails());
     }
+  }
+
+  Future<void> refreshData() async {
+    await Future.wait([loadOverview(), loadActiveRules()]);
+  }
+
+  Future<void> loadOverview() async {
+    try {
+      final response = await _treeRepository.getOverview();
+      final data = response?.data;
+      if (data == null) return;
+
+      streakDays.value = data.currentStreak ?? 0;
+      weeklyProgress.value = (data.currentStreak ?? 0) % 5;
+      totalSavings.value = (data.saveBalancePerMonth ?? 0).toDouble();
+      coins.value = data.availableCoins ?? 0;
+    } catch (error) {
+      AppLogger.error('Failed to load home overview: $error');
+    }
+  }
+
+  Future<void> loadActiveRules() async {
+    try {
+      isLoading.value = true;
+      await _rulesRepository.syncWithBackend();
+      final models = _rulesRepository.getActiveRules();
+      activeRules.value = models.map(RuleItemMapper.fromModel).toList();
+    } catch (error) {
+      AppLogger.error('Failed to load active rules: $error');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> toggleRule(String id, bool isActive) async {
+    await RulesController.to.toggleRule(id, isActive);
+    await loadActiveRules();
   }
 
   void loadPersonalDetails() {
@@ -58,18 +91,4 @@ class HomeController extends GetxController {
     userName.value = GetStorageServices.instance.getName();
     profileImageUrl.value = null;
   }
-}
-
-class ActiveRule {
-  ActiveRule({
-    required this.title,
-    required this.subtitle,
-    required this.icon,
-    required this.iconBg,
-  });
-
-  final String title;
-  final String subtitle;
-  final IconData icon;
-  final int iconBg;
 }

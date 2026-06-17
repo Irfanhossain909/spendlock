@@ -9,6 +9,7 @@ import 'package:spendlock/core/service/api_service/app_api_end_point.dart';
 import 'package:spendlock/feature/home/presentation/controller/home_controller.dart';
 import 'package:spendlock/feature/home/presentation/widget/savings_card.dart';
 import 'package:spendlock/feature/home/presentation/widget/streak_card.dart';
+import 'package:spendlock/feature/navigation/presentation/controller/navigation_controller.dart';
 import 'package:spendlock/feature/rules/presentation/widget/rule_card.dart';
 
 class HomeScreen extends GetView<HomeController> {
@@ -74,6 +75,7 @@ class HomeScreen extends GetView<HomeController> {
                     StreakCard(
                       streakDays: controller.streakDays.value,
                       weeklyProgress: controller.weeklyProgress.value,
+                      coins: controller.coins.value,
                     ),
                     SizedBox(height: 24.h),
                     Row(
@@ -86,40 +88,60 @@ class HomeScreen extends GetView<HomeController> {
                           color: AppColors.gray,
                           fontFamily: 'inter',
                         ),
-                        AppText(
-                          data: 'See all',
-                          fontSize: 11.sp,
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'inter',
+                        GestureDetector(
+                          onTap: () {
+                            Get.find<NavigationController>().changeIndex(1);
+                          },
+                          child: AppText(
+                            data: 'See all',
+                            fontSize: 11.sp,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'inter',
+                          ),
                         ),
                       ],
                     ),
                     SizedBox(height: 12.h),
 
-                    RuleCard(
-                      title: "No food delivery after 9 am",
-                      time: "9 PM - 6 PM",
-                      socialName: "Lock 3 apps",
-                      duration: "02:14h left",
-                      icon: Icons.coffee_outlined,
-                      iconBgColor: const Color(0xFFFFF0E0),
-
-                      socialIcons: const [
-                        Icons.facebook,
-                        Icons.chat,
-                        Icons.camera_alt_outlined,
-                      ],
-                      isActive: true,
-                      isActiveAction: true,
-                      onToggleChanged: (value) {},
-                    ),
-                    // ...controller.activeRules.map(
-                    //   (rule) => Padding(
-                    //     padding: EdgeInsets.only(bottom: 16.h),
-                    //     child: RuleTile(rule: rule),
-                    //   ),
-                    // ),
+                    if (controller.isLoading.value &&
+                        controller.activeRules.isEmpty)
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 24),
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      )
+                    else if (controller.activeRules.isEmpty)
+                      AppText(
+                        data: 'No active rules',
+                        fontSize: 14.sp,
+                        color: AppColors.gray,
+                        fontFamily: 'inter',
+                      )
+                    else
+                      ...controller.activeRules.map(
+                        (rule) => Padding(
+                          padding: EdgeInsets.only(bottom: 12.h),
+                          child: RuleCard(
+                            title: rule.title,
+                            time: rule.time,
+                            socialName: rule.socialName,
+                            duration: rule.duration,
+                            statusLabel: rule.statusLabel,
+                            icon: rule.icon,
+                            iconBgColor: rule.iconBgColor,
+                            badgeType: rule.badgeType,
+                            socialIcons: rule.socialIcons,
+                            isActive: rule.isActive,
+                            isActiveAction: true,
+                            onToggleChanged: (value) =>
+                                controller.toggleRule(rule.id, value),
+                          ),
+                        ),
+                      ),
                     SizedBox(height: 100.h),
                   ],
                 ),

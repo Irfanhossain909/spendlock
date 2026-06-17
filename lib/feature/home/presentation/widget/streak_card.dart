@@ -4,16 +4,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:spendlock/core/component/app_text/app_text.dart';
 import 'package:spendlock/core/const/app_assets.dart';
 import 'package:spendlock/core/const/app_color.dart';
+import 'package:spendlock/feature/tree/presentation/widget/tree_hero.dart';
 
 class StreakCard extends StatelessWidget {
   const StreakCard({
     super.key,
     required this.streakDays,
     required this.weeklyProgress,
+    required this.coins,
+    this.weeklyGoalTotal = 5,
   });
 
   final int streakDays;
   final int weeklyProgress;
+  final int coins;
+  final int weeklyGoalTotal;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +76,7 @@ class StreakCard extends StatelessWidget {
                     ),
                     SizedBox(width: 4.w),
                     AppText(
-                      data: '12 COINS',
+                      data: '$coins COINS',
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w600,
                       color: const Color(0xFF3A0B00),
@@ -106,7 +111,7 @@ class StreakCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16.h),
-          SvgPicture.asset(AppAssets.moneyTree, width: 190.w, height: 190.h),
+          TreeHero(totalCoins: coins),
           SizedBox(height: 16.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,7 +124,7 @@ class StreakCard extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
               AppText(
-                data: '$weeklyProgress/7 Days',
+                data: '$weeklyProgress/$weeklyGoalTotal Days',
                 fontSize: 11.sp,
                 color: AppColors.lightGray,
                 fontFamily: 'inter',
@@ -129,11 +134,13 @@ class StreakCard extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           Row(
-            children: List.generate(7, (i) {
+            children: List.generate(weeklyGoalTotal, (i) {
               final filled = i < weeklyProgress;
               return Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(right: i < 6 ? 6.w : 0),
+                  margin: EdgeInsets.only(
+                    right: i < weeklyGoalTotal - 1 ? 6.w : 0,
+                  ),
                   height: 6.h,
                   decoration: BoxDecoration(
                     color: filled ? AppColors.primary : const Color(0x3364748B),
